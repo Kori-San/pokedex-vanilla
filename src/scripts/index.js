@@ -1,4 +1,4 @@
-import { getPokemonsList } from "./pokapi.js";
+import { getPokemonCount, getPokemonsList } from "./pokapi.js";
 
 /* Vars */
 let limit = 70;
@@ -67,8 +67,10 @@ async function createPokemonBox(url) {
     const container = document.getElementById("pokemon-container");
 
     /* Fetch Pokemon's Data */
-    const response = await fetch(url);
-    const pokemon = await response.json();
+    const pokemonSpecies = await fetch(url).then((response) => response.json());
+
+    const pokemonURL = pokemonSpecies.varieties[0].pokemon.url;
+    const pokemon = await fetch(pokemonURL).then((response) => response.json());
 
     /* Create the div who contains all informations */
     const newPokemonBox = document.createElement("div");
@@ -76,9 +78,16 @@ async function createPokemonBox(url) {
 
     /* Create Image element */
     const newSprite = document.createElement("img");
-    newSprite.src = pokemon.sprites.front_default;
+
+    if (pokemon.sprites.front_default) {
+        newSprite.src = pokemon.sprites.front_default;
+    }
+    else {
+        newSprite.src = "https://www.pokepedia.fr/images/f/f7/Sprite_%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F_RS.png";
+    }
 
     /* Create Name element */
+    /* TODO: Choose name with language */
     const newName = document.createTextNode(capitalize(pokemon.name));
 
     /* Add Child elements to Parents */
@@ -143,9 +152,15 @@ document.getElementById("previous-button").onclick = () => {
     return;
 }
 
-document.getElementById("next-button").onclick = () => {
-    offset += limit;
+document.getElementById("next-button").onclick = async () => {
+    const pokemonCount = await getPokemonCount();
+    const futureOffset = offset + limit;
 
+    if (futureOffset > pokemonCount) {
+        return;
+    }
+
+    offset = futureOffset;
     buildPokemonContainer();
 
     return;
