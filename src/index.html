@@ -7,48 +7,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex</title>
     <style>
+        /* TODO: Put everything in CSS Files and use REM / EM instead of PX */
+
         * {
             margin: 0;
             padding: 0;
         }
 
         body {
+            /* TEMP */
             background: red;
         }
 
         .main-frame {
-            margin-top: 15px;
+            /* Flex directives */
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             gap: 15px;
+
+            /* Box sizing directives */
+            margin-top: 15px;
+        }
+
+        .search-engine {
+            /* Flex directives */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+
+            /* Size directives */
+            width: 85%;
+            height: 30px;
+
+            /* TEMP */
+            background: antiquewhite;
         }
 
         .search-bar {
-            background: antiquewhite;
+            /* Size directives */
             width: 85%;
-            height: 30px;
+        }
+
+        .search-button {
+            /* Size directives */
+            width: 10%;
+        }
+
+        .pagination {
+            /* Flex directives */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7.5px;
         }
 
         .pokemon-container {
-            background: green;
+            /* Flex directives */
             display: flex;
-            gap: 15px;
             justify-content: center;
             align-items: center;
-            width: 95%;
             flex-wrap: wrap;
+            gap: 15px;
 
+            /* Size directives */
+            width: 95%;
+
+            /* TEMP */
+            background: green;
         }
 
         .pokemon-box {
-            width: 115px;
-            background: blue;
+            /* Flex directives */
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+
+            /* Size directives */
+            width: 115px;
+
+            /* TEMP */
+            background: blue;
+
         }
     </style>
     <script type="module" src="/scripts/index.js"></script>
@@ -56,8 +99,17 @@
 
 <body>
     <div class="main-frame">
-        <div class="search-bar"></div>
+        <div class="search-engine">
+            <input class="search-bar"></input>
+            <button class="search-button">Search</button>
+        </div>
+        <div class="pagination">
+            <button id="previous-button">Previous</button>
+            <p id="pokedex-interval">Unknown</p>
+            <button id="next-button">Next</button>
+        </div>
         <div class="pokemon-container" id="pokemon-container"></div>
+
     </div>
 </body>
 
