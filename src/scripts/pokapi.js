@@ -33,10 +33,13 @@ export async function getPokemonCount() {
     return data.count;
 }
 
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<Pokemon>}
+ */
 export async function getPokemonById(id) {
     const url = "https://pokeapi.co/api/v2/pokemon/" + id;
     const response = await fetch(url);
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 }
