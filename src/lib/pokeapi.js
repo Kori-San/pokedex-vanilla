@@ -48,3 +48,18 @@ export async function getPokemonById(id) {
     const response = await fetch(url);
     return await response.json();
 }
+
+/**
+ * This function retrieves information about a Pokemon by its name from the PokeAPI.
+ * 
+ * @param {string} name - The name parameter is a string that represents the name of the Pokemon that you want
+ * to retrieve information for.
+ * 
+ * @returns  {Promise<Pokemon>} The `getPokemonByName` function returns a Promise that resolves to the JSON data of a
+ * Pokemon object retrieved from the PokeAPI based on the provided `name` parameter.
+ */
+export async function getPokemonByName(name) {
+    const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+    const response = await fetch(url);
+    return await response.json();
+}

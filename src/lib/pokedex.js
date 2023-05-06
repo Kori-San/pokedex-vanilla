@@ -1,5 +1,5 @@
 /* Imported functions */
-import { getPokemonsList, getPokemonCount } from "/lib/pokeapi.js";
+import { getPokemonsList, getPokemonCount, getPokemonByName } from "/lib/pokeapi.js";
 import { capitalize } from "/lib/utilities.js"
 
 /* Imported Constants */
@@ -69,7 +69,7 @@ export async function buildPokemonContainer() {
             }
 
             /* Create a Pokemon Box element for the iterated Pokemon */
-            await createPokemonBox(pokemon.url);
+            await createPokemonBox(pokemon.name);
         }
 
     } catch (error) {
@@ -122,19 +122,12 @@ function buildPokedexInterval() {
  * Returns:
  *   Nothing.
  */
-async function createPokemonBox(url) {
+async function createPokemonBox(name) {
     /* Target Container's element */
     const container = document.getElementById("pokemon-container");
 
-    /**
-     * @type PokemonSpecie
-     * Fetch Pokemon's Data
-     * */
-    const pokemonSpecies = await fetch(url).then((response) => response.json());
-
-    const pokemonURL = pokemonSpecies.varieties[0].pokemon.url;
     /** @type Pokemon */
-    const pokemon = await fetch(pokemonURL).then((response) => response.json());
+    const pokemon = await getPokemonByName(name);
 
     /* Create the div who contains all informations */
     const newPokemonBox = document.createElement("div");
