@@ -1,31 +1,15 @@
-import {getPokemonById} from "./pokapi.js";
+/* Imported Functions */
+import { getPokemonById } from "/lib/pokeapi.js";
+import { getParamWithURL, capitalize } from "/lib/utilities.js"
+
+/* Imported Constants */
+import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 
 /**
- * The function capitalizes the first letter of a given string.
- *
- * @param {string } string
- * The parameter "string" is a string data type that represents the input string that needs
- * to be capitalized.
- *
- * @returns {string}
- * Returns a string with the first character capitalized and the rest of the string unchanged.
+ * This function loads and displays details of a Pokemon, including its name and artwork.
  */
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-/**
- *
- * @returns {string}
- */
-function getIdWithURL() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    return urlParams.get("id");
-}
-
 async function loadPokemonDetails() {
-    const id = getIdWithURL();
+    const id = getParamWithURL(idParamName);
     /** @type Pokemon */
     const pokemon = await getPokemonById(id);
 
@@ -41,10 +25,12 @@ async function loadPokemonDetails() {
         artworkElement.src = officialFrontArtwork;
     }
     else {
-        artworkElement.src = "https://www.pokepedia.fr/images/f/f7/Sprite_%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F_RS.png"
+        artworkElement.src = questionMarkSprite;
     }
 }
 
+/* Loads and displays details of a Pokemon. */
 window.addEventListener('load', async () => {
     await loadPokemonDetails();
-});
+    console.log("load");
+})

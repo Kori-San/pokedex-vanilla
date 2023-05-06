@@ -1,0 +1,77 @@
+/* TODO: Use REM / EM instead of PX */
+
+.main-frame {
+    /* Flex directives */
+    gap: 15px;
+
+    /* Box sizing directives */
+    margin-top: 15px;
+}
+
+.search-engine {
+    /* Flex directives */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    /* Size directives */
+    width: 85%;
+    height: 30px;
+
+    /* TEMP */
+    background: antiquewhite;
+}
+
+.search-bar {
+    /* Size directives */
+    width: 85%;
+}
+
+.search-button {
+    /* Size directives */
+    width: 10%;
+}
+
+.pagination {
+    /* Flex directives */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7.5px;
+}
+
+.pokemon-container {
+    /* Flex directives */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    /* Size directives */
+    width: 95%;
+
+    /* TEMP */
+    background: green;
+}
+
+.pokemon-box {
+    /* Flex directives */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    /* Size directives */
+    width: 115px;
+
+    cursor: pointer;
+    /* TEMP */
+    background: blue;
+}
+
+.pokemon-box img {
+    width: 100px;
+    height: 100px;
+}

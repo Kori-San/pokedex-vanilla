@@ -1,0 +1,6 @@
+/* TODO: Use REM / EM instead of PX */
+
+.artwork {
+    width: 500px;
+    max-width: 50%;
+}
