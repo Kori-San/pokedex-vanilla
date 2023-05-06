@@ -5,11 +5,11 @@ export const questionMarkSprite = "https://www.pokepedia.fr/images/f/f7/Sprite_%
 /**
  * The function capitalizes the first letter of a given string.
  * 
- * @param string - The parameter "string" is a string value that represents the input string that needs
+ * @param {string} string - The parameter "string" is a string value that represents the input string that needs
  * to be capitalized. The function "capitalize" takes this string as input and returns a new string
  * with the first letter capitalized.
  * 
- * @returns The function `capitalize` is returning a string with the first letter capitalized and the
+ * @returns {string} The function `capitalize` is returning a string with the first letter capitalized and the
  * rest of the string unchanged.
  */
 export function capitalize(string) {
@@ -19,16 +19,14 @@ export function capitalize(string) {
 /**
  * This function retrieves a specific parameter value from the URL query string in JavaScript.
  * 
- * @param param - The parameter `param` is a string representing the name of the query parameter that
+ * @param {string} param - The parameter `param` is a string representing the name of the query parameter that
  * you want to retrieve from the current URL.
  * 
- * @returns The function `getParamWithURL` returns the value of the specified parameter in the URL
+ * @returns {string} The function `getParamWithURL` returns the value of the specified parameter in the URL
  * query string. If the parameter is not found, it returns `null`.
  */
 export function getParamWithURL(param) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const value = urlParams.get(param);
-
-    return value;
+    return urlParams.get(param);
 }

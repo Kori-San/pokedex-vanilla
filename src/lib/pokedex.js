@@ -111,11 +111,12 @@ function buildPokedexInterval() {
  *
  * @typedef Pokemon
  * @property {string} name
- * @property {{back_default : string, front_default: string}} sprites
+ * @property {{ back_default : string, front_default: string, other: {'official-artwork': {front_default: string}} }} sprites
  * This function creates a new div element containing a Pokemon's image and name, fetched from a given
  * URL, and appends it to a container element on the webpage.
  * 
  * Args:
+ *  @param {string} url
  *   url: The URL from which to fetch the Pokemon's data.
  * 
  * Returns:
@@ -140,7 +141,6 @@ async function createPokemonBox(url) {
 
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
-        return;
     }
 
     newPokemonBox.classList.add("pokemon-box");
