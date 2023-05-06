@@ -159,8 +159,13 @@ async function createPokemonBox(url) {
     /* TODO: Choose name with language */
     const newName = document.createTextNode(capitalize(pokemon.name));
 
+    /* Create div element to store newName */
+    const newNameContainer = document.createElement('div')
+    newNameContainer.classList.add('pokemon-name');
+    newNameContainer.appendChild(newName)
+
     /* Add Child elements to Parents */
     newPokemonBox.appendChild(newSprite);
-    newPokemonBox.appendChild(newName);
+    newPokemonBox.appendChild(newNameContainer);
     container.appendChild(newPokemonBox);
 }
