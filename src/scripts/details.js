@@ -1,5 +1,5 @@
 /* Imported Functions */
-import { getPokemonById } from "/lib/pokeapi.js";
+import { getPokemonByIdOrName } from "/lib/pokeapi.js";
 import { getParamWithURL, capitalize } from "/lib/utilities.js"
 
 /* Imported Constants */
@@ -11,7 +11,7 @@ import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 async function loadPokemonDetails() {
     const id = getParamWithURL(idParamName);
     /** @type Pokemon */
-    const pokemon = await getPokemonById(id);
+    const pokemon = await getPokemonByIdOrName(id);
 
     const artworkElement = document.getElementById("pokemon-artwork");
     const nameElement = document.getElementById("pokemon-name");
@@ -20,6 +20,8 @@ async function loadPokemonDetails() {
     nameElement.innerText = capitalize(pokemon.name);
 
     const officialFrontArtwork = pokemon.sprites.other["official-artwork"].front_default;
+
+    artworkElement.loading = "lazy";
 
     if (officialFrontArtwork) {
         artworkElement.src = officialFrontArtwork;

@@ -1,5 +1,5 @@
 /* Imported functions */
-import { getPokemonsList, getPokemonCount, getPokemonByName } from "/lib/pokeapi.js";
+import { getPokemonsList, getPokemonCount, getPokemonByIdOrName } from "/lib/pokeapi.js";
 import { capitalize } from "/lib/utilities.js"
 
 /* Imported Constants */
@@ -127,7 +127,7 @@ async function createPokemonBox(name) {
     const container = document.getElementById("pokemon-container");
 
     /** @type Pokemon */
-    const pokemon = await getPokemonByName(name);
+    const pokemon = await getPokemonByIdOrName(name);
 
     /* Create the div who contains all informations */
     const newPokemonBox = document.createElement("div");
@@ -140,6 +140,7 @@ async function createPokemonBox(name) {
 
     /* Create Image element */
     const newSprite = document.createElement("img");
+    newSprite.loading = "lazy";
 
     if (pokemon.sprites.front_default) {
         newSprite.src = pokemon.sprites.front_default;
