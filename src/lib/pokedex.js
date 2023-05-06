@@ -1,5 +1,5 @@
 /* Imported functions */
-import { getPokemonsList } from "/lib/pokeapi.js";
+import { getPokemonsList, getPokemonCount } from "/lib/pokeapi.js";
 import { capitalize } from "/lib/utilities.js"
 
 /* Imported Constants */
