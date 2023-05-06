@@ -1,29 +1,32 @@
-import { getPokemonById } from "/scripts/pokapi.js";
+import {getPokemonById} from "./pokapi.js";
 
 /**
  * The function capitalizes the first letter of a given string.
- * 
- * Args:
- *   string: The parameter "string" is a string data type that represents the input string that needs
- *           to be capitalized.
- * 
- * Returns:
- *   Returns a string with the first character capitalized and the rest of the string unchanged.
+ *
+ * @param {string } string
+ * The parameter "string" is a string data type that represents the input string that needs
+ * to be capitalized.
+ *
+ * @returns {string}
+ * Returns a string with the first character capitalized and the rest of the string unchanged.
  */
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ *
+ * @returns {string}
+ */
 function getIdWithURL() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-
-    return id;
+    return urlParams.get("id");
 }
 
 async function loadPokemonDetails() {
     const id = getIdWithURL();
+    /** @type Pokemon */
     const pokemon = await getPokemonById(id);
 
     const artworkElement = document.getElementById("pokemon-artwork");
@@ -42,4 +45,6 @@ async function loadPokemonDetails() {
     }
 }
 
-loadPokemonDetails();
+window.addEventListener('load', async () => {
+    await loadPokemonDetails();
+});
