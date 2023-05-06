@@ -43,10 +43,9 @@
 .pokemon-container {
     /* Flex directives */
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 1.5rem;
 
     margin: 0 2rem;
 }
