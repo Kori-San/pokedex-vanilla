@@ -42,6 +42,8 @@ body, button, input {
     background: #fff;
     border: 10px solid #000;
     overflow: hidden;
+    animation: fall .5s ease-in-out,
+    shake 1.25s cubic-bezier(.36,.07,.19,.97) infinite;
 }
 
 .pokeball-loader::before,
@@ -72,5 +74,26 @@ body, button, input {
     border-radius: 50%;
     z-index: 10;
     box-shadow: 0 0 0 10px black;
-    animation: blink .5s alternate 7;
+    animation: blink .5s alternate infinite;
+}
+
+/* Animation */
+@keyframes blink {
+    from { background: #eee;}
+    to { background: #e74c3c; }
+}
+
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0); }
+    20% { transform: translate(-10px, 0) rotate(-20deg); }
+    30% { transform: translate(10px, 0) rotate(20deg); }
+    50% { transform: translate(-10px, 0) rotate(-10deg); }
+    60% { transform: translate(10px, 0) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+}
+@keyframes fall {
+    0% { top: -300px }
+    60% { top: 0 }
+    80% { top: -20px }
+    100% { top: 0 }
 }
