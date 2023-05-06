@@ -74,6 +74,12 @@ async function createPokemonBox(url) {
 
     /* Create the div who contains all informations */
     const newPokemonBox = document.createElement("div");
+
+    newPokemonBox.onclick = () => {
+        window.location.href = "details.html?id=" + pokemon.id;
+        return;
+    }
+
     newPokemonBox.classList.add("pokemon-box");
 
     /* Create Image element */
