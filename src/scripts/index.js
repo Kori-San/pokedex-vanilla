@@ -28,8 +28,6 @@ function clearPokemonContainer() {
     /* Clears the content of the Container */
     const container = document.getElementById("pokemon-container");
     container.innerHTML = "";
-
-    return;
 }
 
 /**
@@ -48,11 +46,15 @@ function buildPokedexInterval() {
 
     /* Change Text of Interval with the Pokedex Number of the first and last Pokemon */
     pokedexInterval.innerText = firstPokemonNumber + " - " + lastPokemonNumber;
-
-    return;
 }
 
 /**
+ * @typedef PokemonSpecie
+ * @property {{ is_default: boolean, pokemon: {name : string, url: string}}[]} varieties
+ *
+ * @typedef Pokemon
+ * @property {string} name
+ * @property {{back_default : string, front_default: string}} sprites
  * This function creates a new div element containing a Pokemon's image and name, fetched from a given
  * URL, and appends it to a container element on the webpage.
  * 
@@ -66,10 +68,14 @@ async function createPokemonBox(url) {
     /* Target Container's element */
     const container = document.getElementById("pokemon-container");
 
-    /* Fetch Pokemon's Data */
+    /**
+     * @type PokemonSpecie
+     * Fetch Pokemon's Data
+     * */
     const pokemonSpecies = await fetch(url).then((response) => response.json());
 
     const pokemonURL = pokemonSpecies.varieties[0].pokemon.url;
+    /** @type Pokemon */
     const pokemon = await fetch(pokemonURL).then((response) => response.json());
 
     /* Create the div who contains all informations */
@@ -94,8 +100,6 @@ async function createPokemonBox(url) {
     newPokemonBox.appendChild(newSprite);
     newPokemonBox.appendChild(newName);
     container.appendChild(newPokemonBox);
-
-    return;
 }
 
 /**
@@ -113,19 +117,18 @@ async function buildPokemonContainer() {
 
         const ogOffset = offset;
         const pokemonList = await getPokemonsList(limit, offset);
-
         for (let pokemon of pokemonList) {
             /*
             * Since offset only change when page is changed we can clear 
             * the old page before quitting this function, preventing the
             * currently created Pokemon to be displayed.
             */
-            if (ogOffset != offset) {
+            if (ogOffset !== offset) {
                 clearPokemonContainer();
                 return;
             }
 
-            /* Create a Pokemon Box element for the itterated Pokemon */
+            /* Create a Pokemon Box element for the iterated Pokemon */
             await createPokemonBox(pokemon.url);
         }
 
@@ -135,11 +138,9 @@ async function buildPokemonContainer() {
         const newErrorText = document.createTextNode(error);
         container.appendChild(newErrorText);
     }
-
-    return;
 }
 
-document.getElementById("previous-button").onclick = () => {
+document.getElementById("previous-button").onclick = async () => {
     const futureOffset = offset - limit;
 
     if (futureOffset < 0) {
@@ -147,9 +148,7 @@ document.getElementById("previous-button").onclick = () => {
     }
 
     offset = futureOffset;
-    buildPokemonContainer();
-
-    return;
+    await buildPokemonContainer();
 }
 
 document.getElementById("next-button").onclick = async () => {
@@ -161,9 +160,10 @@ document.getElementById("next-button").onclick = async () => {
     }
 
     offset = futureOffset;
-    buildPokemonContainer();
-
-    return;
+    await buildPokemonContainer();
 }
 
-buildPokemonContainer();
+window.addEventListener('load', async () => {
+    await buildPokemonContainer();
+    console.log("load")
+})
