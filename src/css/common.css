@@ -1,6 +1,15 @@
+@font-face {
+    font-family: "Pokemon Pixel Font Regular";
+    src:url("/fonts/pokemon_pixel_font.woff") format("woff")
+}
 * {
     margin: 0;
     padding: 0;
+}
+
+body, button, input {
+    font-family: "Pokemon Pixel Font Regular", sans-serif;
+    font-size: 24px;
 }
 
 .main-frame {
