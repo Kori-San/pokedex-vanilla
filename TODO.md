@@ -1,0 +1,3 @@
+- Add Search Bar
+- Disable buttons when max is reached
+- Make boxes clickable and display details of pokemon
