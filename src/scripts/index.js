@@ -1,7 +1,7 @@
 import { getPokemonCount, getPokemonsList } from "./pokapi.js";
 
 /* Vars */
-let limit = 70;
+let limit = 35;
 let offset = 0;
 
 /**
