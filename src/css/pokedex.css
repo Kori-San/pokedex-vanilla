@@ -3,7 +3,6 @@
 .main-frame {
     /* Flex directives */
     gap: 15px;
-
     /* Box sizing directives */
     margin-top: 15px;
 }
@@ -49,11 +48,7 @@
     flex-wrap: wrap;
     gap: 15px;
 
-    /* Size directives */
-    width: 95%;
-
-    /* TEMP */
-    background: green;
+    margin: 0 2rem;
 }
 
 .pokemon-box {
@@ -62,16 +57,39 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 0.25rem;
 
+    padding: 0.5rem 0.25rem;
     /* Size directives */
-    width: 115px;
+    min-width: 5rem;
 
     cursor: pointer;
-    /* TEMP */
-    background: blue;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    scale: 1;
+    transition: scale 0.25s ease-in-out;
 }
 
 .pokemon-box img {
     width: 100px;
     height: 100px;
 }
+.pokemon-box:hover {
+    scale: 1.2;
+}
+.pokemon-box:hover img{
+     animation: jump 0.65s infinite linear;
+ }
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.25rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
