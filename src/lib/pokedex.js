@@ -131,7 +131,7 @@ async function createPokemonBox(name) {
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
     }
-  
+
     /**
      * @type PokemonSpecie
      * Fetch Pokemon's Data
@@ -139,7 +139,7 @@ async function createPokemonBox(name) {
     /* TODO: GetPokemonSpeciesByIdOrName */
     const pokemonSpecies = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + name).then((response) => response.json());
     const pokemonColor = pokemonSpecies.color.name;
-    
+
     /** @type Pokemon */
     const pokemon = await getPokemonByIdOrName(name);
 
@@ -166,4 +166,19 @@ async function createPokemonBox(name) {
     newPokemonBox.appendChild(newSprite);
     newPokemonBox.appendChild(newNameContainer);
     newNameContainer.appendChild(newName);
+    newPokemonBox.appendChild(newNameContainer);
+
+    /* Create Badges for types */
+    const typesContainer = document.createElement('div');
+    typesContainer.classList.add('types-container');
+
+    pokemon.types.forEach(type => {
+        const badge = document.createElement('span');
+        badge.classList.add('badge-type');
+
+        const typeName = document.createTextNode(type.type.name);
+        badge.appendChild(typeName);
+        typesContainer.appendChild(badge);
+    })
+    newPokemonBox.appendChild(typesContainer);
 }
