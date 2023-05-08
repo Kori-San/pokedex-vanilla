@@ -10,9 +10,6 @@
     /* Size directives */
     width: 85%;
     height: 30px;
-
-    /* TEMP */
-    background: antiquewhite;
 }
 
 .search-bar {
@@ -150,10 +147,21 @@
 }
 
 .badge-type {
-    background-color: #fff;
     color: #000;
     font-weight: 500;
     padding: 0.125rem 0.75rem;
-    border-radius: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+    box-shadow:   -3px 0 0 0 black,
+    3px 0 0 0 black,
+    0 -3px 0 0 black,
+    0 3px 0 0 black;
+    background-color: rgba(256,256,256,0.45);
+}
+
+.pokemon-background-black .badge-type {
+    color: #cccccc;
+    box-shadow: -3px 0 0 0 #cccccc,
+    3px 0 0 0 #cccccc,
+    0 -3px 0 0 #cccccc,
+    0 3px 0 0 #cccccc;
+    background-color: rgba(256,256,256,0.15);
 }

@@ -135,7 +135,7 @@ function clearPokemonContainer() {
  * URL, and appends it to a container element on the webpage.
  * 
  * Args:
- *  @param {string} url
+ *  @param {string} name
  *   url: The URL from which to fetch the Pokemon's data.
  * 
  * Returns:
@@ -203,7 +203,7 @@ async function createPokemonBox(name) {
         const badge = document.createElement('span');
         badge.classList.add('badge-type');
 
-        const typeName = document.createTextNode(type.type.name);
+        const typeName = document.createTextNode(type.type.name.toUpperCase());
         badge.appendChild(typeName);
         typesContainer.appendChild(badge);
     })
