@@ -8,6 +8,7 @@ import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 /* Vars */
 let limit = 35;
 let offset = 0;
+let pokemonList = [];
 
 // ----------------------------------------------------------------
 // -- (Create = From scratch) != (Build = From existing element) --
@@ -52,24 +53,17 @@ export function buildNextPrevButtons() {
 export async function buildPokemonContainer() {
     clearPokemonContainer();
 
+    if (pokemonList.length === 0) {
+        pokemonList = await getPokemonsList(10000, 0);
+    }
+
     try {
         buildPokedexInterval();
 
-        const ogOffset = offset;
-        const pokemonList = await getPokemonsList(limit, offset);
-        for (let pokemon of pokemonList) {
-            /*
-            * Since offset only change when page is changed we can clear 
-            * the old page before quitting this function, preventing the
-            * currently created Pokemon to be displayed.
-            */
-            if (ogOffset !== offset) {
-                clearPokemonContainer();
-                return;
-            }
-
+        const truncPokemonList = pokemonList.slice(offset, offset + limit);
+        for (let pokemon in truncPokemonList) {
             /* Create a Pokemon Box element for the iterated Pokemon */
-            await createPokemonBox(pokemon.name);
+            createPokemonBox(parseInt(pokemon) + 1 + offset);
         }
 
     } catch (error) {
@@ -126,35 +120,32 @@ async function createPokemonBox(name) {
     /* Target Container's element */
     const container = document.getElementById("pokemon-container");
 
-    /** @type Pokemon */
-    const pokemon = await getPokemonByIdOrName(name);
-
-    /* Create the div who contains all informations */
+    /*
+    * First, we create the div who contains all the informations.
+    * It is created first so the order of the pokedex can remain the same.
+    */
     const newPokemonBox = document.createElement("div");
+    container.appendChild(newPokemonBox);
+
+    newPokemonBox.classList.add("pokemon-box");
 
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
     }
 
-    newPokemonBox.classList.add("pokemon-box");
+    /** @type Pokemon */
+    const pokemon = await getPokemonByIdOrName(name);
 
     /* Create Image element */
     const newSprite = document.createElement("img");
-    newSprite.loading = "lazy";
 
-    if (pokemon.sprites.front_default) {
-        newSprite.src = pokemon.sprites.front_default;
-    }
-    else {
-        newSprite.src = questionMarkSprite;
-    }
+    const pokemonSprite = pokemon.sprites.front_default;
+    newSprite.src = pokemonSprite ? pokemonSprite : questionMarkSprite;
+
+    newPokemonBox.appendChild(newSprite);
 
     /* Create Name element */
     /* TODO: Choose name with language */
-    const newName = document.createTextNode(capitalize(pokemon.name));
-
-    /* Add Child elements to Parents */
-    newPokemonBox.appendChild(newSprite);
+    const newName = document.createTextNode(capitalize(pokemon.species.name));
     newPokemonBox.appendChild(newName);
-    container.appendChild(newPokemonBox);
 }

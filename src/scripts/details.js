@@ -17,7 +17,7 @@ async function loadPokemonDetails() {
     const nameElement = document.getElementById("pokemon-name");
 
     document.title = capitalize(pokemon.name);
-    nameElement.innerText = capitalize(pokemon.name);
+    nameElement.innerText = capitalize(pokemon.species.name);
 
     const officialFrontArtwork = pokemon.sprites.other["official-artwork"].front_default;
 
