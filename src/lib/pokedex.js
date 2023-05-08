@@ -128,20 +128,17 @@ async function createPokemonBox(name) {
     const newPokemonBox = document.createElement("div");
     container.appendChild(newPokemonBox);
 
-    newPokemonBox.classList.add("pokemon-box");
-
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
     }
-    
+  
     /**
      * @type PokemonSpecie
      * Fetch Pokemon's Data
      * */
+    /* TODO: GetPokemonSpeciesByIdOrName */
     const pokemonSpecies = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + name).then((response) => response.json());
     const pokemonColor = pokemonSpecies.color.name;
-    
-    newPokemonBox.classList.add("pokemon-background-" + pokemonColor);
     
     /** @type Pokemon */
     const pokemon = await getPokemonByIdOrName(name);
@@ -152,15 +149,21 @@ async function createPokemonBox(name) {
     const pokemonSprite = pokemon.sprites.front_default;
     newSprite.src = pokemonSprite ? pokemonSprite : questionMarkSprite;
 
-    newPokemonBox.appendChild(newSprite);
+    await newSprite.decode();
+
+    /* Create div element to store newName */
+    const newNameContainer = document.createElement('div');
 
     /* Create Name element */
     /* TODO: Choose name with language */
     const newName = document.createTextNode(capitalize(pokemon.species.name));
 
-    /* Create div element to store newName */
-    const newNameContainer = document.createElement('div');
+    /* Add Styles and append everything */
+    newPokemonBox.classList.add("pokemon-box");
+    newPokemonBox.classList.add("pokemon-background-" + pokemonColor);
     newNameContainer.classList.add('pokemon-name');
-    newNameContainer.appendChild(newName);
+
+    newPokemonBox.appendChild(newSprite);
     newPokemonBox.appendChild(newNameContainer);
+    newNameContainer.appendChild(newName);
 }
