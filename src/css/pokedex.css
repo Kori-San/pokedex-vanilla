@@ -62,10 +62,30 @@
     scale: 1;
     transition: scale 0.25s ease-in-out;
 }
+.background-sprite {
+    position: relative;
+    width: 100%;
+}
 
+.background-sprite::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 75%;
+    height: 75%;
+    background-image: url("/img/pokeball_background.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: .6;
+    translate: -50% -50%;
+}
 .pokemon-box img {
     width: 150px;
     height: 150px;
+    position: relative;
+    z-index: 1;
 }
 .pokemon-box:hover {
     scale: 1.2;
