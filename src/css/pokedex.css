@@ -1,12 +1,5 @@
 /* TODO: Use REM / EM instead of PX */
 
-.main-frame {
-    /* Flex directives */
-    gap: 15px;
-    /* Box sizing directives */
-    margin-top: 15px;
-}
-
 .search-engine {
     /* Flex directives */
     display: flex;
@@ -45,7 +38,8 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    justify-content: start;
+    gap: 3rem;
 
     margin: 0 2rem;
 }
@@ -64,7 +58,7 @@
 
     cursor: pointer;
     border-radius: .25rem;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0 25px 20px -20px;
     scale: 1;
     transition: scale 0.25s ease-in-out;
 }
@@ -92,3 +86,36 @@
     }
 }
 
+.pokemon-background-green {
+    background: #56D1B0;
+}
+.pokemon-background-red {
+    background: #F36B6D;
+}
+
+.pokemon-background-blue {
+    background: #77BCFC;
+}
+
+.pokemon-background-yellow {
+    background: #FFD368;
+}
+.pokemon-background-brown {
+    background: #B1726C;
+}
+.pokemon-background-purple {
+    background: #7C538D;
+}
+.pokemon-background-gray {
+    background: #b6b4b4;
+}
+.pokemon-background-pink {
+    background: #EEBBC4;
+}
+.pokemon-background-white {
+    background: #F5F4F7;
+}
+.pokemon-background-black {
+    background: #272626;
+    color: #fff
+}
