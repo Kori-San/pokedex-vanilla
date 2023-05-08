@@ -144,6 +144,8 @@ async function createPokemonBox(name) {
     const pokemon = await getPokemonByIdOrName(name);
 
     /* Create Image element */
+    const spriteContainer = document.createElement('div');
+    spriteContainer.classList.add('background-sprite');
     const newSprite = document.createElement("img");
 
     const pokemonSprite = pokemon.sprites.front_default;
@@ -163,7 +165,8 @@ async function createPokemonBox(name) {
     newPokemonBox.classList.add("pokemon-background-" + pokemonColor);
     newNameContainer.classList.add('pokemon-name');
 
-    newPokemonBox.appendChild(newSprite);
+    spriteContainer.appendChild(newSprite)
+    newPokemonBox.appendChild(spriteContainer);
     newPokemonBox.appendChild(newNameContainer);
     newNameContainer.appendChild(newName);
     newPokemonBox.appendChild(newNameContainer);
