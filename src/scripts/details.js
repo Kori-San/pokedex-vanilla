@@ -1,5 +1,5 @@
 /* Imported Functions */
-import { getPokemonById } from "/lib/pokeapi.js";
+import { getPokemonByIdOrName } from "/lib/pokeapi.js";
 import { getParamWithURL, capitalize, hideLoader } from "/lib/utilities.js"
 
 /* Imported Constants */
@@ -14,15 +14,17 @@ const pokeballLoader = document.querySelector('.container-loader');
 async function loadPokemonDetails() {
     const id = getParamWithURL(idParamName);
     /** @type Pokemon */
-    const pokemon = await getPokemonById(id);
+    const pokemon = await getPokemonByIdOrName(id);
 
     const artworkElement = document.getElementById("pokemon-artwork");
     const nameElement = document.getElementById("pokemon-name");
 
     document.title = capitalize(pokemon.name);
-    nameElement.innerText = capitalize(pokemon.name);
+    nameElement.innerText = capitalize(pokemon.species.name);
 
     const officialFrontArtwork = pokemon.sprites.other["official-artwork"].front_default;
+
+    artworkElement.loading = "lazy";
 
     if (officialFrontArtwork) {
         artworkElement.src = officialFrontArtwork;
