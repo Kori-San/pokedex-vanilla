@@ -52,7 +52,7 @@
     flex-direction: column;
     gap: 0.25rem;
 
-    padding: 0.5rem 0.25rem;
+    padding: 0.75rem 0.5rem;
     /* Size directives */
     min-width: 5rem;
 
@@ -62,10 +62,30 @@
     scale: 1;
     transition: scale 0.25s ease-in-out;
 }
+.background-sprite {
+    position: relative;
+    width: 100%;
+}
 
+.background-sprite::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 75%;
+    height: 75%;
+    background-image: url("/img/pokeball_background.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: .6;
+    translate: -50% -50%;
+}
 .pokemon-box img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    z-index: 1;
 }
 .pokemon-box:hover {
     scale: 1.2;
@@ -118,4 +138,22 @@
 .pokemon-background-black {
     background: #272626;
     color: #fff
+}
+
+
+.types-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-top: .25rem;
+}
+
+.badge-type {
+    background-color: #fff;
+    color: #000;
+    font-weight: 500;
+    padding: 0.125rem 0.75rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
 }
