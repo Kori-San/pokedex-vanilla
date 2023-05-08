@@ -111,7 +111,7 @@ function buildPokedexInterval() {
  * URL, and appends it to a container element on the webpage.
  * 
  * Args:
- *  @param {string} url
+ *  @param {string} name
  *   url: The URL from which to fetch the Pokemon's data.
  * 
  * Returns:
