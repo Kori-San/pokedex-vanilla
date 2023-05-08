@@ -1,10 +1,11 @@
-import { buildNextPrevButtons, buildPokemonContainer } from "/lib/pokedex.js";
-import {hideLoader} from '/lib/utilities.js';
+import { buildNextPrevButtons, buildSearchBar, buildPokemonContainer } from "/lib/pokedex.js";
+import { hideLoader } from '/lib/utilities.js';
 
 const pokeballLoader = document.querySelector('.container-loader');
 /* Loads and displays all Pokemons in a range made with Offset and Limit vars local to 'pokedex.js'. */
 window.addEventListener('load', async () => {
     buildNextPrevButtons();
+    buildSearchBar();
     await buildPokemonContainer();
     setTimeout(() => {
         hideLoader(pokeballLoader);

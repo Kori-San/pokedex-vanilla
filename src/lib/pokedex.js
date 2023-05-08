@@ -1,6 +1,6 @@
 /* Imported functions */
-import { getPokemonsList, getPokemonCount, getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { capitalize } from "/lib/utilities.js"
+import { getPokemonsList, getPokemonByIdOrName } from "/lib/pokeapi.js";
+import { capitalize, levenstein } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
@@ -9,6 +9,11 @@ import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 let limit = 35;
 let offset = 0;
 let pokemonList = [];
+let subPokemonList = [];
+let filterValue = "";
+
+/* Magic Constant */
+const misstypedMaximum = 1; // Allows X misstyped letter
 
 // ----------------------------------------------------------------
 // -- (Create = From scratch) != (Build = From existing element) --
@@ -31,16 +36,49 @@ export function buildNextPrevButtons() {
     }
 
     document.getElementById("next-button").onclick = async () => {
-        const pokemonCount = await getPokemonCount();
         const futureOffset = offset + limit;
 
-        if (futureOffset > pokemonCount) {
+        if (futureOffset > subPokemonList.length) {
             return;
         }
 
         offset = futureOffset;
         await buildPokemonContainer();
     }
+}
+
+export function buildSearchBar() {
+    const searchBar = document.getElementById("search-bar");
+    searchBar.value = "";
+
+    searchBar.addEventListener("input", function () {
+        offset = 0;
+        filterValue = this.value;
+
+        buildPokemonContainer();
+    });
+}
+
+
+/**
+ * The function updates the text of an HTML element to display the Pokedex number range of the first
+ * and last Pokemon in a list.
+ */
+function buildPokedexInterval(array) {
+    /* Target Interval's element */
+    const pokedexInterval = document.getElementById("pokedex-interval");
+
+    const firstPokemonNumber = offset + 1;
+    const lastPokemonNumber = offset + array.length;
+
+    /* Change Text of Interval with the Pokedex Number of the first and last Pokemon */
+    pokedexInterval.innerText = firstPokemonNumber + " - " + lastPokemonNumber;
+}
+
+function searchMatch(reference, value) {
+    const treatedRef = reference.substr(0, value.length).toLowerCase();
+    const treatedVal = value.toLowerCase();
+    return levenstein(treatedRef, treatedVal) <= misstypedMaximum; // Allows one misstyped letter
 }
 
 /**
@@ -58,12 +96,14 @@ export async function buildPokemonContainer() {
     }
 
     try {
-        buildPokedexInterval();
 
-        const truncPokemonList = pokemonList.slice(offset, offset + limit);
-        for (let pokemon in truncPokemonList) {
+        subPokemonList = pokemonList.filter(element => searchMatch(element.name, filterValue));
+        const truncPokemonList = subPokemonList.slice(offset, offset + limit);
+        buildPokedexInterval(truncPokemonList);
+
+        for (let pokemon of truncPokemonList) {
             /* Create a Pokemon Box element for the iterated Pokemon */
-            createPokemonBox(parseInt(pokemon) + 1 + offset);
+            createPokemonBox(pokemon.name);
         }
 
     } catch (error) {
@@ -81,22 +121,6 @@ function clearPokemonContainer() {
     /* Clears the content of the Container */
     const container = document.getElementById("pokemon-container");
     container.innerHTML = "";
-}
-
-
-/**
- * The function updates the text of an HTML element to display the Pokedex number range of the first
- * and last Pokemon in a list.
- */
-function buildPokedexInterval() {
-    /* Target Interval's element */
-    const pokedexInterval = document.getElementById("pokedex-interval");
-
-    const firstPokemonNumber = offset + 1;
-    const lastPokemonNumber = firstPokemonNumber + limit;
-
-    /* Change Text of Interval with the Pokedex Number of the first and last Pokemon */
-    pokedexInterval.innerText = firstPokemonNumber + " - " + lastPokemonNumber;
 }
 
 /**
@@ -131,7 +155,7 @@ async function createPokemonBox(name) {
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
     }
-  
+
     /**
      * @type PokemonSpecie
      * Fetch Pokemon's Data
@@ -139,7 +163,7 @@ async function createPokemonBox(name) {
     /* TODO: GetPokemonSpeciesByIdOrName */
     const pokemonSpecies = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + name).then((response) => response.json());
     const pokemonColor = pokemonSpecies.color.name;
-    
+
     /** @type Pokemon */
     const pokemon = await getPokemonByIdOrName(name);
 
