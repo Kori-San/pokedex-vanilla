@@ -30,3 +30,15 @@ export function getParamWithURL(param) {
     const urlParams = new URLSearchParams(queryString);
     return urlParams.get(param);
 }
+
+
+/**
+ *
+ * @param pokeballLoader
+ */
+export function hideLoader(pokeballLoader) {
+    if (pokeballLoader?.classList.contains('hidden-loader')) {
+        pokeballLoader?.classList.remove('hidden-loader');
+    }
+    pokeballLoader?.classList.add('hidden-loader');
+}

@@ -1,9 +1,12 @@
 /* Imported Functions */
 import { getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { getParamWithURL, capitalize } from "/lib/utilities.js"
+import { getParamWithURL, capitalize, hideLoader } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
+
+
+const pokeballLoader = document.querySelector('.container-loader');
 
 /**
  * This function loads and displays details of a Pokemon, including its name and artwork.
@@ -35,4 +38,7 @@ async function loadPokemonDetails() {
 window.addEventListener('load', async () => {
     await loadPokemonDetails();
     console.log("load");
+    setTimeout(() => {
+        hideLoader(pokeballLoader);
+    }, 3000);
 })

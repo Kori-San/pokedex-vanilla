@@ -102,6 +102,7 @@ function buildPokedexInterval() {
 /**
  * @typedef PokemonSpecie
  * @property {{ is_default: boolean, pokemon: {name : string, url: string}}[]} varieties
+ * @property {{name: string}} color
  *
  * @typedef Pokemon
  * @property {string} name
@@ -132,7 +133,16 @@ async function createPokemonBox(name) {
     newPokemonBox.onclick = () => {
         window.location.href = "details.html?" + idParamName + "=" + pokemon.id;
     }
-
+    
+    /**
+     * @type PokemonSpecie
+     * Fetch Pokemon's Data
+     * */
+    const pokemonSpecies = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + name).then((response) => response.json());
+    const pokemonColor = pokemonSpecies.color.name;
+    
+    newPokemonBox.classList.add("pokemon-background-" + pokemonColor);
+    
     /** @type Pokemon */
     const pokemon = await getPokemonByIdOrName(name);
 
@@ -147,5 +157,10 @@ async function createPokemonBox(name) {
     /* Create Name element */
     /* TODO: Choose name with language */
     const newName = document.createTextNode(capitalize(pokemon.species.name));
-    newPokemonBox.appendChild(newName);
+
+    /* Create div element to store newName */
+    const newNameContainer = document.createElement('div');
+    newNameContainer.classList.add('pokemon-name');
+    newNameContainer.appendChild(newName);
+    newPokemonBox.appendChild(newNameContainer);
 }
