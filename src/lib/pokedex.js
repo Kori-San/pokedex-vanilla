@@ -108,6 +108,7 @@ function buildPokedexInterval() {
 /**
  * @typedef PokemonSpecie
  * @property {{ is_default: boolean, pokemon: {name : string, url: string}}[]} varieties
+ * @property {{name: string}} color
  *
  * @typedef Pokemon
  * @property {string} name
@@ -133,9 +134,9 @@ async function createPokemonBox(url) {
     const pokemonSpecies = await fetch(url).then((response) => response.json());
 
     const pokemonURL = pokemonSpecies.varieties[0].pokemon.url;
+    const pokemonColor = pokemonSpecies.color.name;
     /** @type Pokemon */
     const pokemon = await fetch(pokemonURL).then((response) => response.json());
-
     /* Create the div who contains all informations */
     const newPokemonBox = document.createElement("div");
 
@@ -144,6 +145,7 @@ async function createPokemonBox(url) {
     }
 
     newPokemonBox.classList.add("pokemon-box");
+    newPokemonBox.classList.add("pokemon-background-" + pokemonColor);
 
     /* Create Image element */
     const newSprite = document.createElement("img");
