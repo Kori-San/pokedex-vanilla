@@ -179,7 +179,7 @@ async function createPokemonBox(name) {
         const badge = document.createElement('span');
         badge.classList.add('badge-type');
 
-        const typeName = document.createTextNode(type.type.name);
+        const typeName = document.createTextNode(capitalize(type.type.name));
         badge.appendChild(typeName);
         typesContainer.appendChild(badge);
     })
