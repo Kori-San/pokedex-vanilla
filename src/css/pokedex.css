@@ -1,13 +1,5 @@
 /* TODO: Use REM / EM instead of PX */
 
-.main-frame {
-    /* Flex directives */
-    gap: 15px;
-
-    /* Box sizing directives */
-    margin-top: 15px;
-}
-
 .search-engine {
     /* Flex directives */
     display: flex;
@@ -44,16 +36,12 @@
 .pokemon-container {
     /* Flex directives */
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
+    justify-content: start;
+    gap: 3rem;
 
-    /* Size directives */
-    width: 95%;
-
-    /* TEMP */
-    background: green;
+    margin: 0 2rem;
 }
 
 .pokemon-box {
@@ -62,16 +50,72 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 0.25rem;
 
+    padding: 0.5rem 0.25rem;
     /* Size directives */
-    width: 115px;
+    min-width: 5rem;
 
     cursor: pointer;
-    /* TEMP */
-    background: blue;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.45) 0 25px 20px -20px;
+    scale: 1;
+    transition: scale 0.25s ease-in-out;
 }
 
 .pokemon-box img {
     width: 100px;
     height: 100px;
+}
+.pokemon-box:hover {
+    scale: 1.2;
+}
+.pokemon-box:hover img{
+     animation: jump 0.65s infinite linear;
+ }
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.25rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.pokemon-background-green {
+    background: #56D1B0;
+}
+.pokemon-background-red {
+    background: #F36B6D;
+}
+
+.pokemon-background-blue {
+    background: #77BCFC;
+}
+
+.pokemon-background-yellow {
+    background: #FFD368;
+}
+.pokemon-background-brown {
+    background: #B1726C;
+}
+.pokemon-background-purple {
+    background: #7C538D;
+}
+.pokemon-background-gray {
+    background: #b6b4b4;
+}
+.pokemon-background-pink {
+    background: #EEBBC4;
+}
+.pokemon-background-white {
+    background: #F5F4F7;
+}
+.pokemon-background-black {
+    background: #272626;
+    color: #fff
 }
