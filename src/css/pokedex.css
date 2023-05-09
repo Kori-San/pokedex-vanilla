@@ -17,9 +17,8 @@
     width: 85%;
 }
 
-.search-button {
-    /* Size directives */
-    width: 10%;
+.search-icon {
+    width: 1rem;
 }
 
 .pagination {
