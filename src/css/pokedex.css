@@ -5,21 +5,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 0.75rem;
 
     /* Size directives */
     width: 85%;
-    height: 30px;
+    height: 2rem;
 }
 
 .search-bar {
     /* Size directives */
-    width: 85%;
+    padding: 0.3rem;
+    width: 100%;
+    border-radius: 0;
+    box-shadow:   -3px 0 0 0 black,
+    3px 0 0 0 black,
+    0 -3px 0 0 black,
+    0 3px 0 0 black;
+    transition: background 0.25s ease-out;
 }
 
-.search-button {
-    /* Size directives */
-    width: 10%;
+.search-bar:focus {
+    background: #ECF0F1;
+    outline: none;
+}
+
+.search-icon {
+    width: 1rem;
 }
 
 .pagination {
