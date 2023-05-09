@@ -162,10 +162,11 @@ async function createPokemonBox(name) {
      * */
     /* TODO: GetPokemonSpeciesByIdOrName */
     const pokemonSpecies = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + name).then((response) => response.json());
+    const pokemonDefaultFormName = pokemonSpecies.varieties[0].pokemon.name;
     const pokemonColor = pokemonSpecies.color.name;
 
     /** @type Pokemon */
-    const pokemon = await getPokemonByIdOrName(name);
+    const pokemon = await getPokemonByIdOrName(pokemonDefaultFormName);
 
     /* Create Image element */
     const spriteContainer = document.createElement('div');
