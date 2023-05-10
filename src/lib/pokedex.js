@@ -115,6 +115,12 @@ function buildPokedexInterval(array) {
     pokedexInterval.innerText = firstPokemonNumber + " - " + lastPokemonNumber;
 }
 
+function setPokedexInterval(message) {
+    /* Target Interval's element */
+    const pokedexInterval = document.getElementById("pokedex-interval");
+    pokedexInterval.innerText = message;
+}
+
 function searchMatch(reference, value) {
     const treatedRef = reference.toLowerCase();
     const treatedVal = value.toLowerCase();
@@ -162,6 +168,8 @@ export async function buildPokemonContainer() {
             newErrorContainer.classList.add("error-message");
 
             const newErrorText = document.createTextNode(error.message);
+
+            setPokedexInterval("None");
 
             newErrorContainer.appendChild(newErrorText);
             container.appendChild(newErrorContainer);
