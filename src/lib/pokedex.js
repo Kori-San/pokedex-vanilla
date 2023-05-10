@@ -1,6 +1,6 @@
 /* Imported functions */
 import { getPokemonsList, getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL, deleteParamWithURL } from "/lib/utilities.js"
+import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL, deleteParamWithURL, sortParamWithURL } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
@@ -125,6 +125,7 @@ function searchMatch(reference, value) {
  */
 export async function buildPokemonContainer() {
     clearPokemonContainer();
+    sortParamWithURL();
 
     if (pokemonList.length === 0) {
         pokemonList = await getPokemonsList(10000, 0);
