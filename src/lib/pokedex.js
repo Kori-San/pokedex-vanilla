@@ -54,11 +54,11 @@ export function buildSearchBar() {
     const searchBar = document.getElementById("search-bar");
     searchBar.value = "";
 
-    searchBar.addEventListener("input", function () {
+    searchBar.addEventListener("input", async function () {
         offset = 0;
         filterValue = this.value;
 
-        buildPokemonContainer();
+        await buildPokemonContainer();
     });
 }
 
@@ -66,11 +66,11 @@ export function buildLimitInput() {
     const limitInput = document.getElementById("limit-input");
     limitInput.value = limit;
 
-    limitInput.addEventListener("input", function () {
+    limitInput.addEventListener("input", async function () {
         limit = parseInt(this.value);
         setParamWithURL(limitParamName, limit);
 
-        buildPokemonContainer();
+        await buildPokemonContainer();
     });
 }
 
