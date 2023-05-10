@@ -30,7 +30,7 @@ let filterValue = "";
 export function buildNextPrevButtons() {
     document.getElementById("previous-button").onclick = async () => {
         const futureOffset = offset - limit;
-        
+
         offset = futureOffset < 0 ? 0 : futureOffset;
         setParamWithURL(offsetParamName, offset);
 
@@ -67,7 +67,19 @@ export function buildLimitInput() {
     limitInput.value = limit;
 
     limitInput.addEventListener("input", async function () {
-        limit = parseInt(this.value);
+        if (this.value === "") {
+            limit = 0;
+        }
+        else if (parseInt(this.value) > parseInt(this.max)) {
+            limit = parseInt(this.max);
+        }
+        else if (parseInt(this.value) < parseInt(this.min)) {
+            limit = parseInt(this.min);
+        }
+        else {
+            limit = parseInt(this.value);
+        }
+
         setParamWithURL(limitParamName, limit);
 
         await buildPokemonContainer();
