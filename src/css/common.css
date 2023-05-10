@@ -134,5 +134,5 @@ body, button, input {
 }
 
 .error-message {
-    color: red;
+    font-size: 5vw;
 }
