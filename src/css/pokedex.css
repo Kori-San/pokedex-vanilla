@@ -17,10 +17,10 @@
     padding: 0.3rem;
     width: 100%;
     border-radius: 0;
-    box-shadow:   -3px 0 0 0 black,
-    3px 0 0 0 black,
-    0 -3px 0 0 black,
-    0 3px 0 0 black;
+    box-shadow: -3px 0 0 0 black,
+        3px 0 0 0 black,
+        0 -3px 0 0 black,
+        0 3px 0 0 black;
     transition: background 0.25s ease-out;
 }
 
@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     gap: 3rem;
 
     margin: 0 2rem;
@@ -70,6 +70,7 @@
     scale: 1;
     transition: scale 0.25s ease-in-out;
 }
+
 .background-sprite {
     position: relative;
     width: 100%;
@@ -89,26 +90,31 @@
     opacity: .6;
     translate: -50% -50%;
 }
+
 .pokemon-box img {
     width: 150px;
     height: 150px;
     position: relative;
     z-index: 1;
 }
+
 .pokemon-box:hover {
     scale: 1.2;
 }
-.pokemon-box:hover img{
-     animation: jump 0.65s infinite linear;
- }
+
+.pokemon-box:hover img {
+    animation: jump 0.65s infinite linear;
+}
 
 @keyframes jump {
     0% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-0.25rem);
     }
+
     100% {
         transform: translateY(0);
     }
@@ -117,6 +123,7 @@
 .pokemon-background-green {
     background: #56D1B0;
 }
+
 .pokemon-background-red {
     background: #F36B6D;
 }
@@ -128,21 +135,27 @@
 .pokemon-background-yellow {
     background: #FFD368;
 }
+
 .pokemon-background-brown {
     background: #B1726C;
 }
+
 .pokemon-background-purple {
     background: #7C538D;
 }
+
 .pokemon-background-gray {
     background: #b6b4b4;
 }
+
 .pokemon-background-pink {
     background: #EEBBC4;
 }
+
 .pokemon-background-white {
     background: #F5F4F7;
 }
+
 .pokemon-background-black {
     background: #272626;
     color: #fff
@@ -161,18 +174,18 @@
     color: #000;
     font-weight: 500;
     padding: 0.125rem 0.75rem;
-    box-shadow:   -3px 0 0 0 black,
-    3px 0 0 0 black,
-    0 -3px 0 0 black,
-    0 3px 0 0 black;
-    background-color: rgba(256,256,256,0.45);
+    box-shadow: -3px 0 0 0 black,
+        3px 0 0 0 black,
+        0 -3px 0 0 black,
+        0 3px 0 0 black;
+    background-color: rgba(256, 256, 256, 0.45);
 }
 
 .pokemon-background-black .badge-type {
     color: #cccccc;
     box-shadow: -3px 0 0 0 #cccccc,
-    3px 0 0 0 #cccccc,
-    0 -3px 0 0 #cccccc,
-    0 3px 0 0 #cccccc;
-    background-color: rgba(256,256,256,0.15);
+        3px 0 0 0 #cccccc,
+        0 -3px 0 0 #cccccc,
+        0 3px 0 0 #cccccc;
+    background-color: rgba(256, 256, 256, 0.15);
 }
