@@ -46,6 +46,15 @@ export function setParamWithURL(param, value) {
     window.history.pushState({ path: refresh }, '', refresh);
 }
 
+export function deleteParamWithURL(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    urlParams.delete(param);
+
+    var refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+    window.history.pushState({ path: refresh }, '', refresh);
+}
+
 /**
  *
  * @param pokeballLoader

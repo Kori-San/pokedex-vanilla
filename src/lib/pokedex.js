@@ -1,6 +1,6 @@
 /* Imported functions */
 import { getPokemonsList, getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL } from "/lib/utilities.js"
+import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL, deleteParamWithURL } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
@@ -9,15 +9,20 @@ import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 const initialLimit = 35;
 const initialOffset = 0;
 const misstypedMaximum = 1; // Allows X misstyped letter
+
+/* URL Params constant */
 const limitParamName = "limit";
 const offsetParamName = "offset";
+const searchParamName = "query";
 
 /* Vars */
 let limit = hasParamWithURL(limitParamName) ? parseInt(getParamWithURL(limitParamName)) : initialLimit;
 let offset = hasParamWithURL(offsetParamName) ? parseInt(getParamWithURL(offsetParamName)) : initialOffset;
+let filterValue = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : "";
+
+/* Pokemon Lists */
 let pokemonList = [];
 let subPokemonList = [];
-let filterValue = "";
 
 // ----------------------------------------------------------------
 // -- (Create = From scratch) != (Build = From existing element) --
@@ -52,11 +57,14 @@ export function buildNextPrevButtons() {
 
 export function buildSearchBar() {
     const searchBar = document.getElementById("search-bar");
-    searchBar.value = "";
+    searchBar.value = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : "";
 
     searchBar.addEventListener("input", async function () {
         offset = 0;
+        deleteParamWithURL(offsetParamName);
+
         filterValue = this.value;
+        setParamWithURL(searchParamName, filterValue);
 
         await buildPokemonContainer();
     });
