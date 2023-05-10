@@ -45,7 +45,7 @@ export function buildNextPrevButtons() {
     document.getElementById("next-button").onclick = async () => {
         const futureOffset = offset + limit;
 
-        if (futureOffset > subPokemonList.length) {
+        if (futureOffset >= subPokemonList.length) {
             return;
         }
 
