@@ -8,7 +8,6 @@ import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 /* Magic Constant */
 const initialLimit = 35;
 const initialOffset = 0;
-const misstypedMaximum = 1; // Allows X misstyped letter
 
 /* URL Params constant */
 const limitParamName = "limit";
@@ -64,7 +63,13 @@ export function buildSearchBar() {
         deleteParamWithURL(offsetParamName);
 
         filterValue = this.value;
-        setParamWithURL(searchParamName, filterValue);
+
+        if (this.value) {
+            setParamWithURL(searchParamName, filterValue);
+        }
+        else {
+            deleteParamWithURL(searchParamName);
+        }
 
         await buildPokemonContainer();
     });
@@ -111,9 +116,10 @@ function buildPokedexInterval(array) {
 }
 
 function searchMatch(reference, value) {
-    const treatedRef = reference.substr(0, value.length).toLowerCase();
+    const treatedRef = reference.toLowerCase();
     const treatedVal = value.toLowerCase();
-    return levenstein(treatedRef, treatedVal) <= misstypedMaximum; // Allows one misstyped letter
+
+    return treatedRef.includes(treatedVal);
 }
 
 /**
@@ -132,8 +138,14 @@ export async function buildPokemonContainer() {
     }
 
     try {
-
         subPokemonList = pokemonList.filter(element => searchMatch(element.name, filterValue));
+
+        if (subPokemonList.length === 0) {
+            const error = new Error("No Pokemon found !");
+            error.name = "NoPokeInSearch";
+            throw error;
+        }
+
         const truncPokemonList = subPokemonList.slice(offset, offset + limit);
         buildPokedexInterval(truncPokemonList);
 
@@ -143,10 +155,17 @@ export async function buildPokemonContainer() {
         }
 
     } catch (error) {
-        const container = document.getElementById("pokemon-container");
+        if (error.name = "NoPokeInSearch") {
+            const container = document.getElementById("pokemon-container");
 
-        const newErrorText = document.createTextNode(error);
-        container.appendChild(newErrorText);
+            const newErrorContainer = document.createElement("div");
+            newErrorContainer.classList.add("error-message");
+
+            const newErrorText = document.createTextNode(error.message);
+
+            newErrorContainer.appendChild(newErrorText);
+            container.appendChild(newErrorContainer);
+        }
     }
 }
 
@@ -227,9 +246,8 @@ async function createPokemonBox(name) {
     newNameContainer.classList.add('pokemon-name');
 
     spriteContainer.appendChild(newSprite)
-    newPokemonBox.appendChild(spriteContainer);
-    newPokemonBox.appendChild(newNameContainer);
     newNameContainer.appendChild(newName);
+    newPokemonBox.appendChild(spriteContainer);
     newPokemonBox.appendChild(newNameContainer);
 
     /* Create Badges for types */

@@ -132,3 +132,7 @@ body, button, input {
 .hidden-loader {
     visibility: hidden;
 }
+
+.error-message {
+    color: red;
+}
