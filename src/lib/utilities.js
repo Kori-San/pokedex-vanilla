@@ -31,6 +31,20 @@ export function getParamWithURL(param) {
     return urlParams.get(param);
 }
 
+export function hasParamWithURL(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.has(param);
+}
+
+export function setParamWithURL(param, value) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    urlParams.set(param, value);
+
+    var refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+    window.history.pushState({ path: refresh }, '', refresh);
+}
 
 /**
  *

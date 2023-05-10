@@ -1,19 +1,23 @@
 /* Imported functions */
 import { getPokemonsList, getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { capitalize, levenstein } from "/lib/utilities.js"
+import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 
+/* Magic Constant */
+const initialLimit = 35;
+const initialOffset = 0;
+const misstypedMaximum = 1; // Allows X misstyped letter
+const limitParamName = "limit";
+const offsetParamName = "offset";
+
 /* Vars */
-let limit = 35;
-let offset = 0;
+let limit = hasParamWithURL(limitParamName) ? parseInt(getParamWithURL(limitParamName)) : initialLimit;
+let offset = hasParamWithURL(offsetParamName) ? parseInt(getParamWithURL(offsetParamName)) : initialOffset;
 let pokemonList = [];
 let subPokemonList = [];
 let filterValue = "";
-
-/* Magic Constant */
-const misstypedMaximum = 1; // Allows X misstyped letter
 
 // ----------------------------------------------------------------
 // -- (Create = From scratch) != (Build = From existing element) --
@@ -26,12 +30,10 @@ const misstypedMaximum = 1; // Allows X misstyped letter
 export function buildNextPrevButtons() {
     document.getElementById("previous-button").onclick = async () => {
         const futureOffset = offset - limit;
+        
+        offset = futureOffset < 0 ? 0 : futureOffset;
+        setParamWithURL(offsetParamName, offset);
 
-        if (futureOffset < 0) {
-            return;
-        }
-
-        offset = futureOffset;
         await buildPokemonContainer();
     }
 
@@ -43,6 +45,7 @@ export function buildNextPrevButtons() {
         }
 
         offset = futureOffset;
+        setParamWithURL(offsetParamName, offset);
         await buildPokemonContainer();
     }
 }
@@ -54,6 +57,18 @@ export function buildSearchBar() {
     searchBar.addEventListener("input", function () {
         offset = 0;
         filterValue = this.value;
+
+        buildPokemonContainer();
+    });
+}
+
+export function buildLimitInput() {
+    const limitInput = document.getElementById("limit-input");
+    limitInput.value = limit;
+
+    limitInput.addEventListener("input", function () {
+        limit = parseInt(this.value);
+        setParamWithURL(limitParamName, limit);
 
         buildPokemonContainer();
     });
