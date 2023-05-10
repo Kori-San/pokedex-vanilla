@@ -36,7 +36,13 @@ export function buildNextPrevButtons() {
         const futureOffset = offset - limit;
 
         offset = futureOffset < 0 ? 0 : futureOffset;
-        setParamWithURL(offsetParamName, offset);
+
+        if (offset === initialOffset) {
+            deleteParamWithURL(offsetParamName);
+        }
+        else {
+            setParamWithURL(offsetParamName, offset);
+        }
 
         await buildPokemonContainer();
     }
@@ -93,7 +99,12 @@ export function buildLimitInput() {
             limit = parseInt(this.value);
         }
 
-        setParamWithURL(limitParamName, limit);
+        if (limit === initialLimit) {
+            deleteParamWithURL(limitParamName);
+        }
+        else {
+            setParamWithURL(limitParamName, limit);
+        }
 
         await buildPokemonContainer();
     });
