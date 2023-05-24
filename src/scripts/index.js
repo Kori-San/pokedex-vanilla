@@ -1,4 +1,4 @@
-import { buildNextPrevButtons, buildSearchBar, buildPokemonContainer } from "/lib/pokedex.js";
+import { buildNextPrevButtons, buildSearchBar, buildPokemonContainer, buildLimitInput } from "/lib/pokedex.js";
 import { hideLoader } from '/lib/utilities.js';
 
 const pokeballLoader = document.querySelector('.container-loader');
@@ -6,6 +6,7 @@ const pokeballLoader = document.querySelector('.container-loader');
 window.addEventListener('load', async () => {
     buildNextPrevButtons();
     buildSearchBar();
+    buildLimitInput();
     await buildPokemonContainer();
     setTimeout(() => {
         hideLoader(pokeballLoader);

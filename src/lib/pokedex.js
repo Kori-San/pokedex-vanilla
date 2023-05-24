@@ -1,19 +1,27 @@
 /* Imported functions */
 import { getPokemonsList, getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { capitalize, levenstein } from "/lib/utilities.js"
+import { capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL, deleteParamWithURL, sortParamWithURL } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
 
+/* Magic Constant */
+const initialLimit = 35;
+const initialOffset = 0;
+
+/* URL Params constant */
+const limitParamName = "limit";
+const offsetParamName = "offset";
+const searchParamName = "query";
+
 /* Vars */
-let limit = 35;
-let offset = 0;
+let limit = hasParamWithURL(limitParamName) ? parseInt(getParamWithURL(limitParamName)) : initialLimit;
+let offset = hasParamWithURL(offsetParamName) ? parseInt(getParamWithURL(offsetParamName)) : initialOffset;
+let filterValue = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : "";
+
+/* Pokemon Lists */
 let pokemonList = [];
 let subPokemonList = [];
-let filterValue = "";
-
-/* Magic Constant */
-const misstypedMaximum = 1; // Allows X misstyped letter
 
 // ----------------------------------------------------------------
 // -- (Create = From scratch) != (Build = From existing element) --
@@ -27,35 +35,78 @@ export function buildNextPrevButtons() {
     document.getElementById("previous-button").onclick = async () => {
         const futureOffset = offset - limit;
 
-        if (futureOffset < 0) {
-            return;
+        offset = futureOffset < 0 ? 0 : futureOffset;
+
+        if (offset === initialOffset) {
+            deleteParamWithURL(offsetParamName);
+        }
+        else {
+            setParamWithURL(offsetParamName, offset);
         }
 
-        offset = futureOffset;
         await buildPokemonContainer();
     }
 
     document.getElementById("next-button").onclick = async () => {
         const futureOffset = offset + limit;
 
-        if (futureOffset > subPokemonList.length) {
+        if (futureOffset >= subPokemonList.length) {
             return;
         }
 
         offset = futureOffset;
+        setParamWithURL(offsetParamName, offset);
         await buildPokemonContainer();
     }
 }
 
 export function buildSearchBar() {
     const searchBar = document.getElementById("search-bar");
-    searchBar.value = "";
+    searchBar.value = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : "";
 
-    searchBar.addEventListener("input", function () {
+    searchBar.addEventListener("input", async function () {
         offset = 0;
+        deleteParamWithURL(offsetParamName);
+
         filterValue = this.value;
 
-        buildPokemonContainer();
+        if (this.value) {
+            setParamWithURL(searchParamName, filterValue);
+        }
+        else {
+            deleteParamWithURL(searchParamName);
+        }
+
+        await buildPokemonContainer();
+    });
+}
+
+export function buildLimitInput() {
+    const limitInput = document.getElementById("limit-input");
+    limitInput.value = limit;
+
+    limitInput.addEventListener("input", async function () {
+        if (this.value === "") {
+            limit = 0;
+        }
+        else if (parseInt(this.value) > parseInt(this.max)) {
+            limit = parseInt(this.max);
+        }
+        else if (parseInt(this.value) < parseInt(this.min)) {
+            limit = parseInt(this.min);
+        }
+        else {
+            limit = parseInt(this.value);
+        }
+
+        if (limit === initialLimit) {
+            deleteParamWithURL(limitParamName);
+        }
+        else {
+            setParamWithURL(limitParamName, limit);
+        }
+
+        await buildPokemonContainer();
     });
 }
 
@@ -75,10 +126,17 @@ function buildPokedexInterval(array) {
     pokedexInterval.innerText = firstPokemonNumber + " - " + lastPokemonNumber;
 }
 
+function setPokedexInterval(message) {
+    /* Target Interval's element */
+    const pokedexInterval = document.getElementById("pokedex-interval");
+    pokedexInterval.innerText = message;
+}
+
 function searchMatch(reference, value) {
-    const treatedRef = reference.substr(0, value.length).toLowerCase();
+    const treatedRef = reference.toLowerCase();
     const treatedVal = value.toLowerCase();
-    return levenstein(treatedRef, treatedVal) <= misstypedMaximum; // Allows one misstyped letter
+
+    return treatedRef.includes(treatedVal);
 }
 
 /**
@@ -90,14 +148,21 @@ function searchMatch(reference, value) {
  */
 export async function buildPokemonContainer() {
     clearPokemonContainer();
+    sortParamWithURL();
 
     if (pokemonList.length === 0) {
         pokemonList = await getPokemonsList(10000, 0);
     }
 
     try {
-
         subPokemonList = pokemonList.filter(element => searchMatch(element.name, filterValue));
+
+        if (subPokemonList.length === 0) {
+            const error = new Error("No Pokemon found !");
+            error.name = "NoPokeInSearch";
+            throw error;
+        }
+
         const truncPokemonList = subPokemonList.slice(offset, offset + limit);
         buildPokedexInterval(truncPokemonList);
 
@@ -107,10 +172,19 @@ export async function buildPokemonContainer() {
         }
 
     } catch (error) {
-        const container = document.getElementById("pokemon-container");
+        if (error.name = "NoPokeInSearch") {
+            const container = document.getElementById("pokemon-container");
 
-        const newErrorText = document.createTextNode(error);
-        container.appendChild(newErrorText);
+            const newErrorContainer = document.createElement("div");
+            newErrorContainer.classList.add("error-message");
+
+            const newErrorText = document.createTextNode(error.message);
+
+            setPokedexInterval("None");
+
+            newErrorContainer.appendChild(newErrorText);
+            container.appendChild(newErrorContainer);
+        }
     }
 }
 
@@ -191,9 +265,8 @@ async function createPokemonBox(name) {
     newNameContainer.classList.add('pokemon-name');
 
     spriteContainer.appendChild(newSprite)
-    newPokemonBox.appendChild(spriteContainer);
-    newPokemonBox.appendChild(newNameContainer);
     newNameContainer.appendChild(newName);
+    newPokemonBox.appendChild(spriteContainer);
     newPokemonBox.appendChild(newNameContainer);
 
     /* Create Badges for types */
