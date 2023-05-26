@@ -1,0 +1,12 @@
+name: Makefile simple tests
+run-name: ${{ github.actor }} is running this action
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: make build
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: make start
