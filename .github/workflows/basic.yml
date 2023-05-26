@@ -1,5 +1,5 @@
-name: Makefile simple tests
-run-name: "${{ github.action }} by  @${{ github.actor }}"
+name: Basic Application Run Tests
+run-name: "${{ github.workflow }} by @${{ github.actor }}"
 on: [push]
 jobs:
   build:
