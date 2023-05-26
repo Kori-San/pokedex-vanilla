@@ -4,7 +4,7 @@ run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor
 on: [push]
 
 jobs:
-  build:
+  Basic-Rules:
     # Using the latest version of Ubuntu as the operating system for the job.
     runs-on: ubuntu-latest
 

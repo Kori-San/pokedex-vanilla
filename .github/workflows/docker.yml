@@ -10,7 +10,7 @@ env:
   BUILD_VERSION: latest
 
 jobs:
-  build:
+  Docker-Build:
     # Using the latest version of Ubuntu as the operating system for the job.
     runs-on: ubuntu-latest
 
