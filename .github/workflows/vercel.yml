@@ -1,0 +1,42 @@
+name: Vercel CD
+run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+# Trigger the workflow when there is a push event on the branch named 'main'.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Deploy-Production:
+    # Using the latest version of Ubuntu as the operating system for the job.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out the code from the repository so that it can be used in subsequent steps.
+      - uses: actions/checkout@v3
+
+      # Set up a Node.js environment with version 18.
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Installing the Vercel CLI globally on the runner machine using npm.
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      # Pulling the environment information for the production environment from Vercel using the Vercel CLI.
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Create a production-ready build of the project.
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Deploying the production-ready build artifacts to Vercel using the Vercel CLI.
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

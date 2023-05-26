@@ -1,0 +1,29 @@
+name: Makefile CI
+run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
+
+on: [push]
+
+jobs:
+  build:
+    # Using the latest version of Ubuntu as the operating system for the job.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out the code from the repository so that it can be used in subsequent steps.
+      - uses: actions/checkout@v3
+
+      # Building the latest image using Docker and creating a Container with the configured ports.
+      - name: Build Image & Create Container
+        run: make build
+
+      # Start the Container created on the previous step.
+      - name: Start Container
+        run: make start
+
+      # Stop the Container started on the previous step.
+      - name: Stop Container
+        run: make stop
+
+      # Remove the Container stoped on the previous step.
+      - name: Remove Container
+        run: make clean

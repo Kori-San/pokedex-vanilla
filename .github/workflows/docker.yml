@@ -1,0 +1,25 @@
+name: Docker Image CI
+run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
+
+on: [push]
+
+env:
+  # Parameters
+  DOCKER_FILE: Dockerfile
+  PROJECT_NAME: pokedex
+  
+  # Variables
+  BUILD_TAG: ${{ env.PROJECT_NAME }}:latest
+
+jobs:
+  build:
+    # Using the latest version of Ubuntu as the operating system for the job.
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checks out the code from the repository so that it can be used in subsequent steps.
+    - uses: actions/checkout@v3
+    
+    # The command is used to build the image with the build context being the current directory.
+    - name: Build the Docker image of ${{ env.PROJECT_NAME }}
+      run: docker build . --file $DOCKER_FILE --tag $BUILD_TAG

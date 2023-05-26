@@ -1,11 +1,13 @@
 # Pokedex in Vanilla JS
 A Simple Pokedex using only Vanilla JS
 
+The App is accessible → [here](https://pokedex-kori-san.vercel.app/).
+
 # Quick start
 ```bash
 make build start
 ```
-You can then access the app via 'localhost' or 'https://localhost'
+You can then access the app via 'http://localhost' or 'https://localhost'
 
 # Makefile Rules
 - ***all*** - Execute the start rule.
