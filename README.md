@@ -1,4 +1,5 @@
 # Pokedex in Vanilla JS
+[![Docker Image CI](https://github.com/Kori-San/pokedex-vanilla/actions/workflows/docker.yml/badge.svg)](https://github.com/Kori-San/pokedex-vanilla/actions/workflows/docker.yml) [![Makefile CI](https://github.com/Kori-San/pokedex-vanilla/actions/workflows/make.yml/badge.svg)](https://github.com/Kori-San/pokedex-vanilla/actions/workflows/make.yml)
 A Simple Pokedex using only Vanilla JS
 
 The App is accessible → [here](https://pokedex-kori-san.vercel.app/).
