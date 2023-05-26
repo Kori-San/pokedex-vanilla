@@ -19,5 +19,5 @@ jobs:
     - uses: actions/checkout@v3
     
     # The command is used to build the image with the build context being the current directory.
-    - name: Build the Docker Image of ${{ env.PROJECT_NAME }}
+    - name: Build the Docker Image of '${{ env.PROJECT_NAME }}'
       run: docker build . --file $DOCKER_FILE --tag $PROJECT_NAME:$BUILD_VERSION
