@@ -7,9 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: make build
-  deploy:
+  start:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: make start
+      - run: make build start
