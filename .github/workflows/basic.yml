@@ -1,5 +1,5 @@
-name: Basic Application Run Tests
-run-name: "${{ github.workflow }} by @${{ github.actor }}"
+name: Build and Run Tests
+run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
 on: [push]
 jobs:
   build:
