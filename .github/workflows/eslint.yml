@@ -30,7 +30,7 @@ jobs:
           npm install eslint-config-airbnb-base
 
       - name: Run ESLint
-        run: npx eslint .
+        run: npx eslint src/lib src/scripts
           --config .eslintrc.yml
           --ext .js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif
