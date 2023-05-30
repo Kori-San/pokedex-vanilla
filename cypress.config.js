@@ -2,6 +2,6 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:80',
+    baseUrl: 'https://pokedex-qe1p1dckh-kori-san.vercel.app',
   },
 });
