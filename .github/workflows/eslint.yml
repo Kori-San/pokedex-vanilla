@@ -30,11 +30,11 @@ jobs:
 
       - name: Install AirBnB ESLint config
         run: |
-          npm install eslint-config-airbnb-base
+          npm install install-peerdeps
           npx install-peerdeps eslint-config-airbnb-base
 
       - name: Run ESLint
-        run: npx eslint src/lib src/scripts
+        run: npx eslint src/
           --config .eslintrc.yml
           --ext .js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif

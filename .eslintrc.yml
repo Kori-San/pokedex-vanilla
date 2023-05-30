@@ -1,2 +1,10 @@
 extends:
    - "airbnb-base"
+
+rules:
+   import/no-unresolved: off
+   import/extensions: off
+   import/no-absolute-path: off
+   indent: 
+      - "error"
+      - 4
