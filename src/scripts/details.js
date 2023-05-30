@@ -1,6 +1,6 @@
 /* Imported Functions */
 import { getPokemonByIdOrName } from "/lib/pokeapi.js";
-import { getParamWithURL, capitalize, hideLoader } from "/lib/utilities.js"
+import { getParamWithURL, capitalize, hideLoader, getRandomBetween } from "/lib/utilities.js"
 
 /* Imported Constants */
 import { questionMarkSprite, idParamName } from "/lib/utilities.js";
@@ -36,9 +36,12 @@ async function loadPokemonDetails() {
 
 /* Loads and displays details of a Pokemon. */
 window.addEventListener('load', async () => {
+    document.body.style.overflow = "hidden";
+
     await loadPokemonDetails();
-    console.log("load");
+
     setTimeout(() => {
         hideLoader(pokeballLoader);
-    }, 3000);
+        document.body.style.overflow = "";
+    }, getRandomBetween(250, 3000));
 })
