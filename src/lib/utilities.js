@@ -2,6 +2,10 @@
 export const idParamName = "id";
 export const questionMarkSprite = "https://www.pokepedia.fr/images/f/f7/Sprite_%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F_RS.png";
 
+export function getRandomBetween(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 /**
  * The function capitalizes the first letter of a given string.
  * 
