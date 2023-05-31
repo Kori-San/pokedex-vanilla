@@ -25,7 +25,8 @@ describe('visit', () => {
     });
 
     it('check page limit equal 15', () => {
-        cy.get('#limit-input').clear().type('15');
+        cy.get('#limit-input').clear();
+        cy.get('#limit-input').type('15');
         cy.get(':nth-child(15) > .pokemon-name').contains('Beedrill');
     });
 });

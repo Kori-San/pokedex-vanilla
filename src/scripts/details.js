@@ -1,11 +1,8 @@
 /* Imported Functions */
 import { getPokemonByIdOrName } from '/lib/pokeapi.js';
 import {
-    getParamWithURL, capitalize, hideLoader, getRandomBetween,
+    getParamWithURL, capitalize, hideLoader, getRandomBetween, questionMarkSprite, idParamName,
 } from '/lib/utilities.js';
-
-/* Imported Constants */
-import { questionMarkSprite, idParamName } from '/lib/utilities.js';
 
 const pokeballLoader = document.querySelector('.container-loader');
 

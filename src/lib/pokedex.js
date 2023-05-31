@@ -1,11 +1,10 @@
 /* Imported functions */
 import { getPokemonsList, getPokemonByIdOrName } from '/lib/pokeapi.js';
 import {
-    capitalize, levenstein, getParamWithURL, hasParamWithURL, setParamWithURL, deleteParamWithURL, sortParamWithURL,
+    capitalize, getParamWithURL, hasParamWithURL,
+    setParamWithURL, deleteParamWithURL, sortParamWithURL,
+    questionMarkSprite, idParamName,
 } from '/lib/utilities.js';
-
-/* Imported Constants */
-import { questionMarkSprite, idParamName } from '/lib/utilities.js';
 
 /* Magic Constant */
 const initialLimit = 35;
@@ -17,8 +16,16 @@ const offsetParamName = 'offset';
 const searchParamName = 'query';
 
 /* Vars */
-let limit = hasParamWithURL(limitParamName) ? parseInt(getParamWithURL(limitParamName)) : initialLimit;
-let offset = hasParamWithURL(offsetParamName) ? parseInt(getParamWithURL(offsetParamName)) : initialOffset;
+let limit = initialLimit;
+if (hasParamWithURL(limitParamName)) {
+    limit = parseInt(getParamWithURL(limitParamName), 10);
+}
+
+let offset = initialOffset;
+if (hasParamWithURL(offsetParamName)) {
+    offset = parseInt(getParamWithURL(offsetParamName), 10);
+}
+
 let filterValue = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : '';
 
 /* Pokemon Lists */
@@ -29,81 +36,20 @@ let subPokemonList = [];
 // -- (Create = From scratch) != (Build = From existing element) --
 // ----------------------------------------------------------------
 
+function searchMatch(reference, value) {
+    const treatedRef = reference.toLowerCase();
+    const treatedVal = value.toLowerCase();
+
+    return treatedRef.includes(treatedVal);
+}
+
 /**
- * This function builds previous and next buttons that allow the user to navigate through a list of
- * Pokemon.
+ * The function clears the content of a container element with the ID "pokemon-container".
  */
-export function buildNextPrevButtons() {
-    document.getElementById('previous-button').onclick = async () => {
-        const futureOffset = offset - limit;
-
-        offset = futureOffset < 0 ? 0 : futureOffset;
-
-        if (offset === initialOffset) {
-            deleteParamWithURL(offsetParamName);
-        } else {
-            setParamWithURL(offsetParamName, offset);
-        }
-
-        await buildPokemonContainer();
-    };
-
-    document.getElementById('next-button').onclick = async () => {
-        const futureOffset = offset + limit;
-
-        if (futureOffset >= subPokemonList.length) {
-            return;
-        }
-
-        offset = futureOffset;
-        setParamWithURL(offsetParamName, offset);
-        await buildPokemonContainer();
-    };
-}
-
-export function buildSearchBar() {
-    const searchBar = document.getElementById('search-bar');
-    searchBar.value = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : '';
-
-    searchBar.addEventListener('input', async function () {
-        offset = 0;
-        deleteParamWithURL(offsetParamName);
-
-        filterValue = this.value;
-
-        if (this.value) {
-            setParamWithURL(searchParamName, filterValue);
-        } else {
-            deleteParamWithURL(searchParamName);
-        }
-
-        await buildPokemonContainer();
-    });
-}
-
-export function buildLimitInput() {
-    const limitInput = document.getElementById('limit-input');
-    limitInput.value = limit;
-
-    limitInput.addEventListener('input', async function () {
-        if (this.value === '') {
-            limit = 0;
-        } else if (parseInt(this.value) > parseInt(this.max)) {
-            limit = parseInt(this.max);
-        } else if (parseInt(this.value) < parseInt(this.min)) {
-            limit = parseInt(this.min);
-        } else {
-            limit = parseInt(this.value);
-        }
-
-        if (limit === initialLimit) {
-            deleteParamWithURL(limitParamName);
-        } else {
-            setParamWithURL(limitParamName, limit);
-        }
-
-        await buildPokemonContainer();
-    });
+function clearPokemonContainer() {
+    /* Clears the content of the Container */
+    const container = document.getElementById('pokemon-container');
+    container.innerHTML = '';
 }
 
 /**
@@ -127,70 +73,6 @@ function setPokedexInterval(message) {
     pokedexInterval.innerText = message;
 }
 
-function searchMatch(reference, value) {
-    const treatedRef = reference.toLowerCase();
-    const treatedVal = value.toLowerCase();
-
-    return treatedRef.includes(treatedVal);
-}
-
-/**
- * This function builds a container for displaying a list of Pokemon, fetching the list from an API and
- * creating a Pokemon Box element for each Pokemon in the list.
- *
- * @returns The function `buildPokemonContainer()` does not have a return statement, so it will return
- * `undefined` by default.
- */
-export async function buildPokemonContainer() {
-    clearPokemonContainer();
-    sortParamWithURL();
-
-    if (pokemonList.length === 0) {
-        pokemonList = await getPokemonsList(10000, 0);
-    }
-
-    try {
-        subPokemonList = pokemonList.filter((element) => searchMatch(element.name, filterValue));
-
-        if (subPokemonList.length === 0) {
-            const error = new Error('No Pokemon found !');
-            error.name = 'NoPokeInSearch';
-            throw error;
-        }
-
-        const truncPokemonList = subPokemonList.slice(offset, offset + limit);
-        buildPokedexInterval(truncPokemonList);
-
-        for (const pokemon of truncPokemonList) {
-            /* Create a Pokemon Box element for the iterated Pokemon */
-            createPokemonBox(pokemon.name);
-        }
-    } catch (error) {
-        if (error.name = 'NoPokeInSearch') {
-            const container = document.getElementById('pokemon-container');
-
-            const newErrorContainer = document.createElement('div');
-            newErrorContainer.classList.add('error-message');
-
-            const newErrorText = document.createTextNode(error.message);
-
-            setPokedexInterval('None');
-
-            newErrorContainer.appendChild(newErrorText);
-            container.appendChild(newErrorContainer);
-        }
-    }
-}
-
-/**
- * The function clears the content of a container element with the ID "pokemon-container".
- */
-function clearPokemonContainer() {
-    /* Clears the content of the Container */
-    const container = document.getElementById('pokemon-container');
-    container.innerHTML = '';
-}
-
 /**
  * @typedef PokemonSpecie
  * @property {{ is_default: boolean, pokemon: {name : string, url: string}}[]} varieties
@@ -198,9 +80,11 @@ function clearPokemonContainer() {
  *
  * @typedef Pokemon
  * @property {string} name
- * @property {{ back_default : string, front_default: string, other: {'official-artwork': {front_default: string}} }} sprites
- * This function creates a new div element containing a Pokemon's image and name, fetched from a given
- * URL, and appends it to a container element on the webpage.
+ * @property {{ back_default : string,
+ *              front_default: string,
+ *              other: {'official-artwork': {front_default: string}} }} sprites
+ * This function creates a new div element containing a Pokemon's image and name,
+ * fetched from a given URL, and appends it to a container element on the webpage.
  *
  * Args:
  *  @param {string} name
@@ -220,10 +104,6 @@ async function createPokemonBox(name) {
     const newPokemonBox = document.createElement('div');
     container.appendChild(newPokemonBox);
 
-    newPokemonBox.onclick = () => {
-        window.location.href = `details.html?${idParamName}=${pokemon.id}`;
-    };
-
     /**
      * @type PokemonSpecie
      * Fetch Pokemon's Data
@@ -235,6 +115,10 @@ async function createPokemonBox(name) {
 
     /** @type Pokemon */
     const pokemon = await getPokemonByIdOrName(pokemonDefaultFormName);
+
+    newPokemonBox.onclick = () => {
+        window.location.href = `details.html?${idParamName}=${pokemon.id}`;
+    };
 
     /* Create Image element */
     const spriteContainer = document.createElement('div');
@@ -276,4 +160,129 @@ async function createPokemonBox(name) {
         typesContainer.appendChild(badge);
     });
     newPokemonBox.appendChild(typesContainer);
+}
+
+/**
+ * This function builds a container for displaying a list of Pokemon, fetching
+ * the list from an API and creating a Pokemon Box element for each Pokemon in the list.
+ *
+ * @returns The function `buildPokemonContainer()` does not have a return statement,
+ * so it will return `undefined` by default.
+ */
+export async function buildPokemonContainer() {
+    clearPokemonContainer();
+    sortParamWithURL();
+
+    if (pokemonList.length === 0) {
+        pokemonList = await getPokemonsList(10000, 0);
+    }
+
+    try {
+        subPokemonList = pokemonList.filter((element) => searchMatch(element.name, filterValue));
+
+        if (subPokemonList.length === 0) {
+            const error = new Error('No Pokemon found !');
+            error.name = 'NoPokeInSearch';
+            throw error;
+        }
+
+        const truncPokemonList = subPokemonList.slice(offset, offset + limit);
+        buildPokedexInterval(truncPokemonList);
+
+        truncPokemonList.forEach((pokemon) => {
+            /* Create a Pokemon Box element for the iterated Pokemon */
+            createPokemonBox(pokemon.name);
+        });
+    } catch (error) {
+        if (error.name === 'NoPokeInSearch') {
+            const container = document.getElementById('pokemon-container');
+
+            const newErrorContainer = document.createElement('div');
+            newErrorContainer.classList.add('error-message');
+
+            const newErrorText = document.createTextNode(error.message);
+
+            setPokedexInterval('None');
+
+            newErrorContainer.appendChild(newErrorText);
+            container.appendChild(newErrorContainer);
+        }
+    }
+}
+
+/**
+ * This function builds previous and next buttons that allow the user to navigate through a list of
+ * Pokemon.
+ */
+export function buildNextPrevButtons() {
+    document.getElementById('previous-button').onclick = async () => {
+        const futureOffset = offset - limit;
+
+        offset = futureOffset < 0 ? 0 : futureOffset;
+
+        if (offset === initialOffset) {
+            deleteParamWithURL(offsetParamName);
+        } else {
+            setParamWithURL(offsetParamName, offset);
+        }
+
+        await buildPokemonContainer();
+    };
+
+    document.getElementById('next-button').onclick = async () => {
+        const futureOffset = offset + limit;
+
+        if (futureOffset >= subPokemonList.length) {
+            return;
+        }
+
+        offset = futureOffset;
+        setParamWithURL(offsetParamName, offset);
+        await buildPokemonContainer();
+    };
+}
+
+export function buildSearchBar() {
+    const searchBar = document.getElementById('search-bar');
+    searchBar.value = hasParamWithURL(searchParamName) ? getParamWithURL(searchParamName) : '';
+
+    searchBar.addEventListener('input', async function searchURLParamSetter() {
+        offset = 0;
+        deleteParamWithURL(offsetParamName);
+
+        filterValue = this.value;
+
+        if (this.value) {
+            setParamWithURL(searchParamName, filterValue);
+        } else {
+            deleteParamWithURL(searchParamName);
+        }
+
+        await buildPokemonContainer();
+    });
+}
+
+export function buildLimitInput() {
+    const limitInput = document.getElementById('limit-input');
+    limitInput.value = limit;
+
+    limitInput.addEventListener('input', async function limitParser() {
+        if (this.value === '') {
+            limit = 0;
+        } else if (parseInt(this.value, 10) > parseInt(this.max, 10)) {
+            limit = parseInt(this.max, 10);
+        } else if (parseInt(this.value, 10) < parseInt(this.min, 10)) {
+            limit = parseInt(this.min, 10);
+        } else {
+            limit = parseInt(this.value, 10);
+        }
+
+        if (limit === initialLimit) {
+            deleteParamWithURL(limitParamName);
+        } else {
+            setParamWithURL(limitParamName, limit);
+        }
+
+        await buildPokemonContainer();
+    });
 }
