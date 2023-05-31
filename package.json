@@ -1,6 +1,5 @@
 {
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "cypress": "^12.11.0",
     "gremlins.js": "^2.2.0",

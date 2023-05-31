@@ -16,6 +16,7 @@ all: start
 start:
 	@echo "$(PROJECT_NAME): Starting '$(CONTAINER_NAME)'"
 	@docker start $(CONTAINER_NAME) > /dev/null
+	@echo "$(PROJECT_NAME): Server Up and Running on 'http://localhost:$(HTTP_PORT)' and 'https://localhost:$(HTTPS_PORT)'."
 
 build:
 	@echo "$(PROJECT_NAME): Building '$(BUILD_TAG)'"
