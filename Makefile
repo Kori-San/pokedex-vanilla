@@ -35,7 +35,6 @@ stop:
 clean:
 	@echo "$(PROJECT_NAME): Removing '$(CONTAINER_NAME)'"
 	@docker rm $(CONTAINER_NAME) > /dev/null
-	@$(RM) -vfr ./node_modules
 
 install:
 	@npm install
