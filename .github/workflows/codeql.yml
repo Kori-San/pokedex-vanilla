@@ -4,29 +4,38 @@ run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor
 on: [push]
 
 jobs:
+  # Will run on either the latest version of Ubuntu or the latest version of macOS if the language being analyzed is Swift.
   analyze:
     name: Analyze
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+
+    # Sets permissions for the job to read actions and contents, and write security events.
     permissions:
       actions: read
       contents: read
       security-events: write
 
+    # This is defining a matrix strategy for the job, which allows the same job to be run multiple times with different configurations.
     strategy:
+      # If one configuration of the job fails, the other configurations should still be run instead of stopping the entire job immediately.
       fail-fast: false
+
+      # Specifying that the job should be run for the 'javascript' language.
       matrix:
         language: [ 'javascript' ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      # Using the latest version of Ubuntu as the operating system for the job.
+      - uses: actions/checkout@v3
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      # Specifies the language to be analyzed using the 'matrix.language' variable.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      # Performing the actual CodeQL analysis on the codebase.
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
