@@ -8,7 +8,7 @@ HTTPS_PORT = 443
 HTTP_PORT = 80
 
 # PHONY Rule
-.PHONY: all start build stop clean ngrok
+.PHONY: all start build stop clean install lint fix test rebuild reload restart ngrok
 
 # Rules
 all: start 
@@ -34,6 +34,20 @@ stop:
 clean:
 	@echo "$(PROJECT_NAME): Removing '$(CONTAINER_NAME)'"
 	@docker rm $(CONTAINER_NAME) > /dev/null
+	@$(RM) -vfr ./node_modules
+
+install:
+	@npm install --only=dev
+	@npm fund
+
+lint:
+	@npx eslint . --config .eslintrc.yml
+
+fix:
+	@npx eslint . --config .eslintrc.yml --fix
+
+test:
+	@npx cypress run
 
 restart: stop start
 

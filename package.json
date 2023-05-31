@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "gremlins.js": "^2.2.0"
   },
   "devDependencies": {
     "cypress": "^12.11.0",
+    "gremlins.js": "^2.2.0",
     "eslint": "^8.41.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5"
