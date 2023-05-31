@@ -1,10 +1,10 @@
 name: CodeQL Security CI
 run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
 
-on:
+on: 
   push:
   schedule:
-    - cron: '30 15 * * *'
+    - cron: '45 15 * * *'
 
 
 jobs:
