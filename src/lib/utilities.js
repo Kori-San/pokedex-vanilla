@@ -1,6 +1,6 @@
 /* Export Constants */
-export const idParamName = "id";
-export const questionMarkSprite = "https://www.pokepedia.fr/images/f/f7/Sprite_%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F_RS.png";
+export const idParamName = 'id';
+export const questionMarkSprite = 'https://www.pokepedia.fr/images/f/f7/Sprite_%3F%3F%3F%3F%3F%3F%3F%3F%3F%3F_RS.png';
 
 export function getRandomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -8,13 +8,13 @@ export function getRandomBetween(min, max) {
 
 /**
  * The function capitalizes the first letter of a given string.
- * 
- * @param {string} string - The parameter "string" is a string value that represents the input string that needs
- * to be capitalized. The function "capitalize" takes this string as input and returns a new string
- * with the first letter capitalized.
- * 
- * @returns {string} The function `capitalize` is returning a string with the first letter capitalized and the
- * rest of the string unchanged.
+ *
+ * @param {string} string - The parameter "string" is a string value that represents the input
+ * string that needs to be capitalized. The function "capitalize" takes this string as input
+ * and returns a new string with the first letter capitalized.
+ *
+ * @returns {string} The function `capitalize` is returning a string with the first
+ * letter capitalized and the rest of the string unchanged.
  */
 export function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -22,12 +22,12 @@ export function capitalize(string) {
 
 /**
  * This function retrieves a specific parameter value from the URL query string in JavaScript.
- * 
- * @param {string} param - The parameter `param` is a string representing the name of the query parameter that
- * you want to retrieve from the current URL.
- * 
- * @returns {string} The function `getParamWithURL` returns the value of the specified parameter in the URL
- * query string. If the parameter is not found, it returns `null`.
+ *
+ * @param {string} param - The parameter `param` is a string representing the name of the
+ * query parameter that you want to retrieve from the current URL.
+ *
+ * @returns {string} The function `getParamWithURL` returns the value of the specified
+ * parameter in the URL query string. If the parameter is not found, it returns `null`.
  */
 export function getParamWithURL(param) {
     const queryString = window.location.search;
@@ -46,7 +46,7 @@ export function setParamWithURL(param, value) {
     const urlParams = new URLSearchParams(queryString);
     urlParams.set(param, value);
 
-    var refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+    const refresh = `${window.location.protocol}//${window.location.host}${window.location.pathname}?${urlParams.toString()}`;
     window.history.pushState({ path: refresh }, '', refresh);
 }
 
@@ -55,7 +55,7 @@ export function deleteParamWithURL(param) {
     const urlParams = new URLSearchParams(queryString);
     urlParams.delete(param);
 
-    var refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+    const refresh = `${window.location.protocol}//${window.location.host}${window.location.pathname}?${urlParams.toString()}`;
     window.history.pushState({ path: refresh }, '', refresh);
 }
 
@@ -64,7 +64,7 @@ export function sortParamWithURL() {
     const urlParams = new URLSearchParams(queryString);
     urlParams.sort();
 
-    var refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + urlParams.toString();
+    const refresh = `${window.location.protocol}//${window.location.host}${window.location.pathname}?${urlParams.toString()}`;
     window.history.pushState({ path: refresh }, '', refresh);
 }
 
@@ -73,15 +73,14 @@ export function sortParamWithURL() {
  * @param pokeballLoader
  */
 export function hideLoader(pokeballLoader) {
-    if (pokeballLoader?.classList.contains('hidden-loader')) {
-        pokeballLoader?.classList.remove('hidden-loader');
+    if (pokeballLoader.classList.contains('hidden-loader')) {
+        pokeballLoader.classList.remove('hidden-loader');
     }
-    pokeballLoader?.classList.add('hidden-loader');
+    pokeballLoader.classList.add('hidden-loader');
 }
 
 export function levenstein(str1, str2) {
-    const track = Array(str2.length + 1).fill(null).map(() =>
-        Array(str1.length + 1).fill(null));
+    const track = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
     for (let i = 0; i <= str1.length; i += 1) {
         track[0][i] = i;
     }
@@ -99,4 +98,4 @@ export function levenstein(str1, str2) {
         }
     }
     return track[str2.length][str1.length];
-};
+}

@@ -1,5 +1,9 @@
 extends:
    - "airbnb-base"
+   - "plugin:cypress/recommended"
+
+env:
+   browser: true
 
 rules:
    import/no-unresolved: off

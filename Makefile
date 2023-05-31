@@ -8,7 +8,7 @@ HTTPS_PORT = 443
 HTTP_PORT = 80
 
 # PHONY Rule
-.PHONY: all start build stop clean ngrok
+.PHONY: all start build stop clean install lint fix test rebuild reload restart ngrok
 
 # Rules
 all: start 
@@ -16,6 +16,7 @@ all: start
 start:
 	@echo "$(PROJECT_NAME): Starting '$(CONTAINER_NAME)'"
 	@docker start $(CONTAINER_NAME) > /dev/null
+	@echo "$(PROJECT_NAME): Server Up and Running on 'http://localhost:$(HTTP_PORT)' and 'https://localhost:$(HTTPS_PORT)'."
 
 build:
 	@echo "$(PROJECT_NAME): Building '$(BUILD_TAG)'"
@@ -34,6 +35,19 @@ stop:
 clean:
 	@echo "$(PROJECT_NAME): Removing '$(CONTAINER_NAME)'"
 	@docker rm $(CONTAINER_NAME) > /dev/null
+
+install:
+	@npm install
+	@npm fund
+
+lint:
+	@npx eslint . --config .eslintrc.yml
+
+fix:
+	@npx eslint . --config .eslintrc.yml --fix
+
+test:
+	@npx cypress run
 
 restart: stop start
 

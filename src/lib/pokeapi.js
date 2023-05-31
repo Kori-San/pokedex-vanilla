@@ -13,7 +13,7 @@ let pokemonCount = -1;
  * @returns {Promise<PokemonSpecies.results>}
  */
 export async function getPokemonsList(limit, offset) {
-    const url = "https://pokeapi.co/api/v2/pokemon-species?limit=" + limit + "&offset=" + offset;
+    const url = `https://pokeapi.co/api/v2/pokemon-species?limit=${limit}&offset=${offset}`;
     const response = await fetch(url);
 
     /** @type {PokemonSpecies} */
@@ -33,16 +33,17 @@ export function getPokemonCount() {
 /**
  * This function retrieves data for a specific Pokemon by its ID from the PokeAPI.
  *
- * @param {string} idOrName - The `id` parameter is a number that represents the unique identifier of a specific
- * Pokemon in the PokeAPI. This function uses the `id` parameter to construct a URL that points to the
- * API endpoint for the corresponding Pokemon. The function then sends a GET request to the API
- * endpoint using the constructed URL
+ * @param {string} idOrName - The `id` parameter is a number that represents the
+ * unique identifier of a specific Pokemon in the PokeAPI. This function uses the `id`
+ * parameter to construct a URL that points to the API endpoint for the corresponding Pokemon.
+ * The function then sends a GET request to the API endpoint using the constructed URL.
  *
- * @returns {Promise<Pokemon>} The function `getPokemonById` returns a Promise that resolves to the data of a Pokemon with
- * the specified `id` fetched from the PokeAPI. The data is in JSON format.
+ * @returns {Promise<Pokemon>} The function `getPokemonById` returns a Promise that resolves
+ * to the data of a Pokemon with the specified `id` fetched from the PokeAPI.
+ * The data is in JSON format.
  */
 export async function getPokemonByIdOrName(idOrName) {
-    const url = "https://pokeapi.co/api/v2/pokemon/" + idOrName;
+    const url = `https://pokeapi.co/api/v2/pokemon/${idOrName}`;
     const response = await fetch(url);
-    return await response.json();
+    return response.json();
 }
