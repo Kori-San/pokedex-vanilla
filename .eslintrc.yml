@@ -1,5 +1,6 @@
 extends:
    - "airbnb-base"
+   - "plugin:cypress/recommended"
 
 env:
    browser: true

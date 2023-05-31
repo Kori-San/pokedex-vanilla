@@ -38,7 +38,7 @@ clean:
 	@$(RM) -vfr ./node_modules
 
 install:
-	@npm install --only=dev
+	@npm install
 	@npm fund
 
 lint:
