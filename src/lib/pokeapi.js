@@ -13,7 +13,7 @@ let pokemonCount = -1;
  * @returns {Promise<PokemonSpecies.results>}
  */
 export async function getPokemonsList(limit, offset) {
-    const url = "https://pokeapi.co/api/v2/pokemon-species?limit=" + limit + "&offset=" + offset;
+    const url = `https://pokeapi.co/api/v2/pokemon-species?limit=${limit}&offset=${offset}`;
     const response = await fetch(url);
 
     /** @type {PokemonSpecies} */
@@ -42,7 +42,7 @@ export function getPokemonCount() {
  * the specified `id` fetched from the PokeAPI. The data is in JSON format.
  */
 export async function getPokemonByIdOrName(idOrName) {
-    const url = "https://pokeapi.co/api/v2/pokemon/" + idOrName;
+    const url = `https://pokeapi.co/api/v2/pokemon/${idOrName}`;
     const response = await fetch(url);
     return await response.json();
 }
