@@ -1,5 +1,4 @@
-# Pulling the nginx image from docker hub.
-FROM nginx:1.23.4-bullseye
+FROM nginx:1.25-alpine3.17-slim
 
 # Copying the files from the local directory to the docker container.
 COPY ./conf/keys/ /etc/letsencrypt/live/pokedex.io/

@@ -1,0 +1,17 @@
+name: Cypress Tests CI
+run-name: "${{ github.workflow }} #${{ github.run_number }} by @${{ github.actor }}"
+
+on: [push]
+
+jobs:
+  Cypress-Run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          build: make build
+          start: make start
