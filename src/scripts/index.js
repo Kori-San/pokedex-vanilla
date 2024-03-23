@@ -1,7 +1,7 @@
 import {
     buildNextPrevButtons, buildSearchBar, buildPokemonContainer, buildLimitInput,
 } from '/lib/pokedex.js';
-import { hideLoader, getRandomBetween } from '/lib/utilities.js';
+import { hideLoader } from '/lib/utilities.js';
 
 const pokeballLoader = document.querySelector('.container-loader');
 /* Loads and displays all Pokemons in a range made with Offset and Limit URL params */
@@ -16,5 +16,5 @@ window.addEventListener('load', async () => {
     setTimeout(() => {
         hideLoader(pokeballLoader);
         document.body.style.overflow = '';
-    }, getRandomBetween(250, 3000));
+    }, 250);
 });

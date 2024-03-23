@@ -49,6 +49,9 @@ fix:
 test:
 	@npx cypress run
 
+testui:
+	@npx cypress open
+
 restart: stop start
 
 rebuild: clean build
